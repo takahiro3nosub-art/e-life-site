@@ -164,12 +164,17 @@ img {
 .hero h1 {
   max-width: 780px;
   margin: 0;
-  font-size: clamp(2.35rem, 6.6vw, 5.35rem);
+  font-size: clamp(1.62rem, 5vw, 3.5rem);
   line-height: 1.08;
   letter-spacing: -0.045em;
 }
 
-.hero h1 span {
+.hero__title-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero__title-line--accent {
   color: var(--green);
 }
 
