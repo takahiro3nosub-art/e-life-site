@@ -6,12 +6,17 @@
   "scripts": {
     "dev": "astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "images": "node scripts/render-social-images.mjs",
     "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^7.2.0",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

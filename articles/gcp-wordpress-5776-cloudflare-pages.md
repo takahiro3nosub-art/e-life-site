@@ -10,6 +10,8 @@ tags:
   - "Cloudflare Pages"
   - "Astro"
   - "Codex"
+image: "/og/gcp-wordpress-cloudflare-pages.png"
+imageAlt: "GCPのWordPress月額見積もりとCloudflare Pagesを比較する記事のカバー画像"
 draft: false
 ---
 

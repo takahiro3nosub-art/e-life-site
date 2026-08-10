@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">E-Life logo</title>
+  <defs>
+    <linearGradient id="g" x1="72" y1="48" x2="430" y2="462" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2A8563"/>
+      <stop offset="1" stop-color="#0F4F39"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="150" fill="#F4F8F5"/>
+  <path d="M96 110c0-39 31-70 70-70h180c39 0 70 31 70 70v210c0 84-68 152-152 152h-98c-39 0-70-31-70-70V110Z" fill="url(#g)"/>
+  <path d="M190 142h151v55H253v49h78v53h-78v54h94v57H190V142Z" fill="white"/>
+</svg>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../site";
+
+const canonical = new URL("/about/", Astro.site).toString();
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "E-Lifeの運営・編集方針",
+  description: "E-Lifeの目的、情報源、実体験の扱い、記事更新の方針を説明します。",
+  url: canonical,
+  isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
+};
+---
+
+<BaseLayout
+  title="運営・編集方針"
+  description="E-Lifeの目的、情報源、実体験の扱い、記事更新の方針を説明します。"
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <header class="page-hero">
+    <div class="site-shell page-shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト"><a href="/">ホーム</a> / 運営・編集方針</nav>
+      <p class="eyebrow">About & Editorial Policy</p>
+      <h1>E-Lifeの運営・編集方針</h1>
+      <p>E-Lifeは、AIエージェントやクラウド、Webサイト運用について、初心者が判断しやすい形で整理する情報メディアです。</p>
+    </div>
+  </header>
+
+  <div class="site-shell page-shell policy-content">
+    <section>
+      <h2>このサイトの目的</h2>
+      <p>ツール名やサービス名を紹介するだけでなく、「何を選ぶか」「なぜそう判断したか」まで追える記事を目指します。専門用語は初出時に説明し、実際に試した内容と調査で確認した内容を分けて記載します。</p>
+    </section>
+
+    <section>
+      <h2>情報源と確認日</h2>
+      <p>料金、制限、機能など変更され得る情報は、サービス提供元の公式ページや公式ドキュメントを優先します。記事内には可能な限り確認日と出典リンクを記載します。</p>
+    </section>
+
+    <section>
+      <h2>実体験の扱い</h2>
+      <p>実際に行った操作、画面で確認した数値、選択した構成のみを体験として記載します。行っていない操作や、確認していない結果を体験談として補うことはしません。</p>
+    </section>
+
+    <section>
+      <h2>AIを使った制作と確認</h2>
+      <p>記事作成やサイト更新にAIやCodexを利用する場合があります。公開前に、事実関係、出典、ページ表示、リンク、メタ情報を確認し、読者に誤解を与える表現がないかを見直します。</p>
+    </section>
+
+    <section>
+      <h2>更新と訂正</h2>
+      <p>仕様変更や誤りが確認できた場合は、内容を修正し、記事の更新日を変更します。料金や無料枠などの変動情報は、記事に記載された確認日時点の内容としてお読みください。</p>
+    </section>
+  </div>
+</BaseLayout>

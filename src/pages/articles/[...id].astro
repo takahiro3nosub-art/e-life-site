@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SITE } from "../../site";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles", ({ data }) => !data.draft);
@@ -18,10 +19,13 @@ interface Props {
 const { article } = Astro.props;
 const { Content } = await render(article);
 const canonical = new URL(`/articles/${article.id.replace(/\.md$/, "")}/`, Astro.site).toString();
+const image = article.data.image ?? SITE.defaultImage;
+const imageUrl = new URL(image, Astro.site).toString();
 const dateFormatter = new Intl.DateTimeFormat("ja-JP", {
   year: "numeric",
   month: "long",
   day: "numeric",
+  timeZone: "Asia/Tokyo",
 });
 
 const jsonLd = [
@@ -33,8 +37,14 @@ const jsonLd = [
     datePublished: article.data.publishedAt.toISOString(),
     dateModified: article.data.updatedAt.toISOString(),
     mainEntityOfPage: canonical,
-    author: { "@type": "Organization", name: "E-Life" },
-    publisher: { "@type": "Organization", name: "E-Life" },
+    image: [imageUrl],
+    author: { "@type": "Organization", name: SITE.name, url: `${SITE.url}about/` },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+      logo: { "@type": "ImageObject", url: new URL(SITE.logo, Astro.site).toString() },
+    },
     inLanguage: "ja",
   },
   {
@@ -56,6 +66,8 @@ const jsonLd = [
   publishedAt={article.data.publishedAt}
   updatedAt={article.data.updatedAt}
   jsonLd={jsonLd}
+  image={image}
+  imageAlt={article.data.imageAlt}
 >
   <header class="article-hero">
     <div class="site-shell">
@@ -73,6 +85,14 @@ const jsonLd = [
           更新：{dateFormatter.format(article.data.updatedAt)}
         </time>
       </div>
+      <img
+        class="article-cover"
+        src={image}
+        alt={article.data.imageAlt ?? ""}
+        width="1200"
+        height="630"
+        fetchpriority="high"
+      />
     </div>
   </header>
 
@@ -83,6 +103,7 @@ const jsonLd = [
     <aside class="article-side">
       <strong>この記事について</strong>
       2026年8月11日時点の公式情報と、実際の設定画面で確認した内容を分けて記載しています。料金や上限は導入時に公式ページで再確認してください。
+      <a class="article-side__link" href="/about/">E-Lifeの運営・編集方針</a>
     </aside>
   </div>
 </BaseLayout>

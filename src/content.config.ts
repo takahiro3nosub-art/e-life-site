@@ -11,6 +11,8 @@ const articles = defineCollection({
     updatedAt: z.coerce.date(),
     category: z.string(),
     tags: z.array(z.string()),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
     draft: z.boolean().default(true),
   }),
 });

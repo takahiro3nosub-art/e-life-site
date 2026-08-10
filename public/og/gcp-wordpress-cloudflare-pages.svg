@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">GCPのWordPressとCloudflare Pagesを比較</title>
+  <desc id="desc">月5,776円の見積もりをきっかけに構成を見直した記事</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FAF8"/>
+      <stop offset="1" stop-color="#E4F1E9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="68" y="60" width="1064" height="510" rx="38" fill="white" stroke="#DCE8E0" stroke-width="3"/>
+  <text x="116" y="125" fill="#176B4D" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="25" font-weight="700" letter-spacing="5">E-LIFE  •  SITE BUILD</text>
+  <text x="116" y="225" fill="#17251F" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="58" font-weight="700">GCPでWordPressを作ろうとしたら</text>
+  <text x="116" y="340" fill="#176B4D" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="106" font-weight="700">月5,776円</text>
+  <text x="116" y="425" fill="#17251F" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="45" font-weight="700">Cloudflare Pagesと比較して見直した話</text>
+  <rect x="116" y="478" width="166" height="44" rx="22" fill="#E8F4ED"/>
+  <text x="151" y="508" fill="#176B4D" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="20" font-weight="700">実際の見積もり</text>
+  <rect x="300" y="478" width="188" height="44" rx="22" fill="#F4EBD3"/>
+  <text x="339" y="508" fill="#765A19" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="20" font-weight="700">初心者向け比較</text>
+</svg>

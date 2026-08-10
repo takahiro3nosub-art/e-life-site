@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">E-Life</title>
+  <desc id="desc">AIエージェントを、わかる知識に。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5FAF7"/>
+      <stop offset="1" stop-color="#DCEFE4"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="838" y1="127" x2="1108" y2="502" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2A8563"/>
+      <stop offset="1" stop-color="#0F4F39"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1032" cy="84" r="205" fill="#D3E9DC"/>
+  <circle cx="114" cy="610" r="210" fill="#E7D7A9" opacity=".38"/>
+  <text x="84" y="120" fill="#176B4D" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="30" font-weight="700" letter-spacing="6">E-LIFE</text>
+  <text x="84" y="279" fill="#17251F" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="72" font-weight="700">AIエージェントを、</text>
+  <text x="84" y="375" fill="#176B4D" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="82" font-weight="700">わかる知識に。</text>
+  <text x="88" y="471" fill="#5B6B63" font-family="Arial, 'Noto Sans JP', sans-serif" font-size="28">AI・Codex・クラウド・サイト運用の実践メディア</text>
+  <rect x="866" y="144" width="236" height="342" rx="72" fill="url(#mark)"/>
+  <text x="927" y="384" fill="white" font-family="Arial, sans-serif" font-size="214" font-weight="700">E</text>
+</svg>

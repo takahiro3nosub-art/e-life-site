@@ -1,25 +1,33 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../site";
 
 const articles = (await getCollection("articles", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
 
-const description =
-  "E-Lifeは、AIエージェント、Codex、クラウド、サイト運用の知識を初心者にもわかりやすく整理する情報メディアです。";
-
-const websiteJsonLd = {
+const websiteJsonLd = [
+  {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "E-Life",
-  url: "https://e-life.site/",
-  description,
-  inLanguage: "ja",
-};
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+  inLanguage: SITE.language,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.name,
+    url: SITE.url,
+    logo: new URL(SITE.logo, Astro.site).toString(),
+    description: SITE.description,
+  },
+];
 ---
 
-<BaseLayout title="E-Life" description={description} jsonLd={websiteJsonLd}>
+<BaseLayout title="E-Life" description={SITE.description} jsonLd={websiteJsonLd}>
   <section class="hero">
     <div class="site-shell hero__grid">
       <div>
@@ -30,11 +38,12 @@ const websiteJsonLd = {
           実際に試した設定と公式情報を分け、初心者にも追いやすい言葉で届けます。
         </p>
       </div>
-      <aside class="hero__note" id="about">
+      <aside class="hero__note">
         <strong>E-Lifeについて</strong>
         <p>
           AIエージェント、クラウド、Webサイト運用を中心に、選択の背景まで記録するナレッジメディアです。
         </p>
+        <a class="hero__note-link" href="/about/">運営・編集方針を見る →</a>
       </aside>
     </div>
   </section>
@@ -54,7 +63,7 @@ const websiteJsonLd = {
               <div class="article-card__meta">
                 <span class="article-card__category">{article.data.category}</span>
                 <time datetime={article.data.publishedAt.toISOString()}>
-                  {article.data.publishedAt.toLocaleDateString("ja-JP")}
+                  {article.data.publishedAt.toLocaleDateString("ja-JP", { timeZone: "Asia/Tokyo" })}
                 </time>
               </div>
               <h3>{article.data.title}</h3>
