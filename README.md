@@ -1,6 +1,6 @@
 # e-life-site
 
-Cloudflare Pagesで公開する「AIエージェントナレッジ」メディアです。
+Cloudflare Pagesで公開する、40代からAIやCodexを試す実体験ブログです。
 
 ## 開発
 

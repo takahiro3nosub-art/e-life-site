@@ -8,7 +8,7 @@ export async function GET(context: { site?: URL }) {
   );
 
   return rss({
-    title: `${SITE.name} - AIエージェントナレッジ`,
+    title: `${SITE.name} - AI・Codex実体験ブログ`,
     description: SITE.description,
     site: context.site ?? new URL(SITE.url),
     items: articles.map((article) => ({

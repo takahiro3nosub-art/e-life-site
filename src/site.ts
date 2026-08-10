@@ -2,7 +2,7 @@ export const SITE = {
   name: "E-Life",
   url: "https://e-life.site/",
   description:
-    "E-Lifeは、AIエージェント、Codex、クラウド、サイト運用の知識を初心者にもわかりやすく整理する情報メディアです。",
+    "E-Lifeは、40代でAIやCodexを使い始めた私が、仕事や生活で実際に試したことを初心者目線で記録するブログです。",
   language: "ja",
   locale: "ja_JP",
   defaultImage: "/og/e-life-default.png",

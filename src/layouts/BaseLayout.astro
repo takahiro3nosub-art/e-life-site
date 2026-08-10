@@ -25,7 +25,7 @@ const {
   updatedAt,
   jsonLd,
   image = SITE.defaultImage,
-  imageAlt = "E-Life - AIエージェントナレッジ",
+  imageAlt = "E-Life - AIエージェントを始めた40代おじさんブログ",
   noindex = false,
 } = Astro.props;
 
@@ -75,8 +75,8 @@ const robots = noindex ? "noindex,follow" : "index,follow,max-image-preview:larg
           <span>E-LIFE</span>
         </a>
         <nav class="site-nav" aria-label="メインナビゲーション">
-          <a href="/#articles">記事</a>
-          <a href="/about/">運営・編集方針</a>
+          <a href="/#articles">記事一覧</a>
+          <a href="/about/">このブログについて</a>
         </nav>
       </div>
     </header>
@@ -85,9 +85,9 @@ const robots = noindex ? "noindex,follow" : "index,follow,max-image-preview:larg
     </main>
     <footer class="site-footer">
       <div class="site-shell site-footer__inner">
-        <span>AIエージェントを、わかる知識に。</span>
+        <span>40代から始める、AIとCodexの実体験メモ。</span>
         <nav class="footer-links" aria-label="フッターナビゲーション">
-          <a href="/about/">運営・編集方針</a>
+          <a href="/about/">このブログについて</a>
           <a href="/privacy/">プライバシー</a>
           <a href="/rss.xml">RSS</a>
           <button type="button" data-open-cookie-settings>Cookie設定</button>
