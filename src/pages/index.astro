@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const articles = (await getCollection("articles", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+
+const description =
+  "E-Lifeは、AIエージェント、Codex、クラウド、サイト運用の知識を初心者にもわかりやすく整理する情報メディアです。";
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "E-Life",
+  url: "https://e-life.site/",
+  description,
+  inLanguage: "ja",
+};
+---
+
+<BaseLayout title="E-Life" description={description} jsonLd={websiteJsonLd}>
+  <section class="hero">
+    <div class="site-shell hero__grid">
+      <div>
+        <p class="eyebrow">AI Agent Knowledge</p>
+        <h1>AIエージェントを、<br /><span>わかる知識</span>に。</h1>
+        <p class="hero__lead">
+          AIやCodexを仕事とサイト運用に取り入れるための、実践的な情報を整理します。
+          実際に試した設定と公式情報を分け、初心者にも追いやすい言葉で届けます。
+        </p>
+      </div>
+      <aside class="hero__note" id="about">
+        <strong>E-Lifeについて</strong>
+        <p>
+          AIエージェント、クラウド、Webサイト運用を中心に、選択の背景まで記録するナレッジメディアです。
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" id="articles">
+    <div class="site-shell">
+      <div class="section__head">
+        <div>
+          <p class="eyebrow">Latest Articles</p>
+          <h2>新着記事</h2>
+        </div>
+      </div>
+      <div class="article-grid">
+        {
+          articles.map((article) => (
+            <a class="article-card" href={`/articles/${article.id}/`}>
+              <div class="article-card__meta">
+                <span class="article-card__category">{article.data.category}</span>
+                <time datetime={article.data.publishedAt.toISOString()}>
+                  {article.data.publishedAt.toLocaleDateString("ja-JP")}
+                </time>
+              </div>
+              <h3>{article.data.title}</h3>
+              <p>{article.data.description}</p>
+              <span class="article-card__more">記事を読む →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,5 +1,18 @@
 # e-life-site
 
-Cloudflare Pagesで公開するE-Life公式サイトです。
+Cloudflare Pagesで公開する「AIエージェントナレッジ」メディアです。
 
-現在は静的HTMLの準備中ページを配置しています。Cloudflare Pagesではビルドコマンドを空欄にし、出力ディレクトリにリポジトリのルートを指定して公開します。
+## 開発
+
+```bash
+npm install
+npm run dev
+```
+
+## ビルド
+
+```bash
+npm run build
+```
+
+Cloudflare Pagesでは、ビルドコマンドを`npm run build`、出力ディレクトリを`dist`に設定します。
