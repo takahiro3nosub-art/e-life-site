@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../site";
+
+const canonical = new URL("/privacy/", Astro.site).toString();
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "E-Life プライバシーポリシー",
+  description: "E-Lifeにおけるアクセス解析、Cookie、取得情報の扱いを説明します。",
+  url: canonical,
+  isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
+};
+---
+
+<BaseLayout
+  title="プライバシーポリシー"
+  description="E-Lifeにおけるアクセス解析、Cookie、取得情報の扱いを説明します。"
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <header class="page-hero">
+    <div class="site-shell page-shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト"><a href="/">ホーム</a> / プライバシーポリシー</nav>
+      <p class="eyebrow">Privacy Policy</p>
+      <h1>プライバシーポリシー</h1>
+      <p>E-Lifeにおけるアクセス解析とCookie等の取り扱いについて説明します。</p>
+    </div>
+  </header>
+
+  <div class="site-shell page-shell policy-content">
+    <section>
+      <h2>Google Analyticsの利用</h2>
+      <p>E-Lifeでは、サイトの利用状況を把握し、記事や画面構成を改善するため、Google Analytics 4を利用します。計測は、画面上の案内で「同意する」を選択した場合に開始します。</p>
+    </section>
+
+    <section>
+      <h2>取得される情報</h2>
+      <p>Google Analyticsの標準実装では、利用者数、セッションに関する情報、おおよその地域、ブラウザや端末に関する情報などが収集されます。また、拡張計測機能により、ページ表示、スクロール、外部リンクのクリックなどが記録される場合があります。</p>
+      <p><a href="https://support.google.com/analytics/answer/11593727" rel="external">Google Analytics：データ収集について</a></p>
+    </section>
+
+    <section>
+      <h2>Cookie等の利用</h2>
+      <p>Google Analyticsは、利用者やセッションを区別するため、Cookie等を使用する場合があります。E-Lifeでは、同意前および「拒否する」を選択した後はGoogle Analyticsのタグを読み込みません。</p>
+    </section>
+
+    <section>
+      <h2>同意の変更</h2>
+      <p>フッターの「Cookie設定」から、いつでも選択画面を開き直せます。拒否へ変更した場合、ページを再読み込みして以降の計測を停止します。ブラウザに保存済みのCookieは、ブラウザの設定から削除できます。</p>
+      <button class="button-secondary policy-cookie-button" type="button" data-open-cookie-settings>Cookie設定を開く</button>
+    </section>
+
+    <section>
+      <h2>Googleの情報管理</h2>
+      <p>Googleによる情報の取り扱いについては、Googleの規約とポリシーをご確認ください。</p>
+      <p><a href="https://policies.google.com/privacy" rel="external">Google プライバシーポリシー</a></p>
+    </section>
+
+    <section>
+      <h2>改定</h2>
+      <p>利用するサービスや計測内容を変更した場合は、このページを更新します。</p>
+      <p>制定日：2026年8月11日</p>
+    </section>
+  </div>
+</BaseLayout>

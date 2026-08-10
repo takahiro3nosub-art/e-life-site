@@ -1,0 +1,95 @@
+---
+interface Props {
+  measurementId: string;
+}
+
+const { measurementId } = Astro.props;
+---
+
+<div class="cookie-consent" data-cookie-consent hidden data-nosnippet>
+  <div class="cookie-consent__inner">
+    <p>
+      サイト改善のためGoogle Analyticsを使用します。Cookie等の利用に同意いただける場合のみ、アクセス状況の計測を開始します。
+      <a href="/privacy/">詳しく見る</a>
+    </p>
+    <div class="cookie-consent__actions">
+      <button type="button" class="button-secondary" data-analytics-reject>拒否する</button>
+      <button type="button" class="button-primary" data-analytics-accept>同意する</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ measurementId }}>
+  (() => {
+    const consentKey = "e-life-analytics-consent";
+    const banner = document.querySelector("[data-cookie-consent]");
+    const acceptButton = document.querySelector("[data-analytics-accept]");
+    const rejectButton = document.querySelector("[data-analytics-reject]");
+    const settingsButtons = document.querySelectorAll("[data-open-cookie-settings]");
+    const isProductionHost = ["e-life.site", "www.e-life.site"].includes(location.hostname);
+
+    if (!banner || !acceptButton || !rejectButton || !isProductionHost) return;
+
+    const getConsent = () => {
+      try {
+        return localStorage.getItem(consentKey);
+      } catch {
+        return null;
+      }
+    };
+
+    const setConsent = (value) => {
+      try {
+        localStorage.setItem(consentKey, value);
+      } catch {
+        // 保存できない環境では、この閲覧中だけ選択を反映します。
+      }
+    };
+
+    const loadAnalytics = () => {
+      if (window.__eLifeAnalyticsLoaded) return;
+      window.__eLifeAnalyticsLoaded = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag("js", new Date());
+      window.gtag("config", measurementId);
+
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+      document.head.appendChild(script);
+    };
+
+    const hideBanner = () => {
+      banner.hidden = true;
+    };
+
+    const showBanner = () => {
+      banner.hidden = false;
+      acceptButton.focus();
+    };
+
+    acceptButton.addEventListener("click", () => {
+      setConsent("granted");
+      hideBanner();
+      loadAnalytics();
+    });
+
+    rejectButton.addEventListener("click", () => {
+      const wasGranted = getConsent() === "granted";
+      setConsent("denied");
+      hideBanner();
+      if (wasGranted && window.__eLifeAnalyticsLoaded) location.reload();
+    });
+
+    settingsButtons.forEach((button) => {
+      button.addEventListener("click", showBanner);
+    });
+
+    const consent = getConsent();
+    if (consent === "granted") loadAnalytics();
+    if (consent === null) showBanner();
+  })();
+</script>

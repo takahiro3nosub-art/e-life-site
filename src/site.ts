@@ -7,4 +7,5 @@ export const SITE = {
   locale: "ja_JP",
   defaultImage: "/og/e-life-default.png",
   logo: "/logo.png",
+  analyticsId: "G-2BN3NMXKM4",
 } as const;
