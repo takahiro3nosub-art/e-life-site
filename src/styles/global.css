@@ -340,6 +340,7 @@ img {
 }
 
 .article-body {
+  min-width: 0;
   padding: clamp(28px, 5vw, 54px);
   border: 1px solid var(--line);
   border-radius: 26px;
@@ -406,6 +407,16 @@ img {
   color: var(--green-dark);
   font-size: 1.08rem;
   font-weight: 700;
+}
+
+.article-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--wash);
 }
 
 .article-body table {
@@ -587,7 +598,7 @@ img {
 
   .hero__grid,
   .article-wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .hero__note {
@@ -623,6 +634,7 @@ img {
 
   .article-body table {
     display: block;
+    max-width: 100%;
     overflow-x: auto;
     white-space: nowrap;
   }
