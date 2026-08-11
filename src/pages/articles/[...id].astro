@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ShareButtons from "../../components/ShareButtons.astro";
 import { SITE } from "../../site";
 
 export async function getStaticPaths() {
@@ -99,6 +100,7 @@ const jsonLd = [
   <div class="site-shell article-wrap">
     <article class="article-body">
       <Content />
+      <ShareButtons title={article.data.title} url={canonical} />
     </article>
   </div>
 </BaseLayout>

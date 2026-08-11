@@ -445,6 +445,114 @@ img {
   font-size: 0.9em;
 }
 
+.share-panel {
+  margin-top: 3.5rem;
+  padding: clamp(22px, 4vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--wash);
+}
+
+.article-body .share-panel h2 {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 1.35rem;
+}
+
+.article-body .share-panel h2::before {
+  display: none;
+}
+
+.article-body .share-panel > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.share-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.share-button {
+  min-height: 48px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink);
+  background: var(--paper);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.share-button:hover {
+  color: var(--green-dark);
+  border-color: #b7d0c0;
+  background: #fbfdfb;
+}
+
+.share-button:focus-visible {
+  outline: 3px solid rgb(23 107 77 / 25%);
+  outline-offset: 2px;
+}
+
+.share-button__mark {
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  flex: 0 0 28px;
+  place-items: center;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.share-button__mark--x {
+  color: white;
+  background: #111111;
+}
+
+.share-button__mark--facebook {
+  color: white;
+  background: #1877f2;
+}
+
+.share-button__mark--line {
+  color: #102417;
+  background: #06c755;
+}
+
+.share-button__mark--hatena {
+  color: #08212a;
+  background: #00a4de;
+}
+
+.share-button__mark--copy,
+.share-button__mark--native {
+  color: var(--green-dark);
+  background: var(--green-soft);
+  font-size: 1rem;
+}
+
+.article-body .share-status {
+  min-height: 1.5rem;
+  margin-top: 10px;
+  color: var(--green-dark);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .page-hero {
   padding: clamp(54px, 9vw, 96px) 0 34px;
 }
@@ -608,6 +716,10 @@ img {
     max-width: 100%;
     overflow-x: auto;
     white-space: nowrap;
+  }
+
+  .share-buttons {
+    grid-template-columns: 1fr;
   }
 
   .site-footer__inner {

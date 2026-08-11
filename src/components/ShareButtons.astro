@@ -1,0 +1,109 @@
+---
+interface Props {
+  title: string;
+  url: string;
+}
+
+const { title, url } = Astro.props;
+const encodedTitle = encodeURIComponent(title);
+const encodedUrl = encodeURIComponent(url);
+
+const shareLinks = [
+  {
+    name: "X",
+    mark: "X",
+    className: "share-button__mark--x",
+    href: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+  },
+  {
+    name: "Facebook",
+    mark: "f",
+    className: "share-button__mark--facebook",
+    href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+  },
+  {
+    name: "LINE",
+    mark: "L",
+    className: "share-button__mark--line",
+    href: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${encodedTitle}`,
+  },
+  {
+    name: "はてなブックマーク",
+    mark: "B!",
+    className: "share-button__mark--hatena",
+    href: `https://b.hatena.ne.jp/add?mode=confirm&url=${encodedUrl}&title=${encodedTitle}`,
+  },
+];
+---
+
+<section class="share-panel" aria-labelledby="share-heading" data-share-panel data-share-title={title} data-share-url={url}>
+  <h2 id="share-heading">この記事をシェアする</h2>
+  <p>役に立ったら、使いやすい方法で共有してもらえるとうれしいです。</p>
+  <div class="share-buttons">
+    {
+      shareLinks.map((share) => (
+        <a
+          class="share-button"
+          href={share.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${share.name}でこの記事をシェアする`}
+        >
+          <span class:list={["share-button__mark", share.className]} aria-hidden="true">{share.mark}</span>
+          <span>{share.name}</span>
+        </a>
+      ))
+    }
+    <button class="share-button" type="button" data-share-copy>
+      <span class="share-button__mark share-button__mark--copy" aria-hidden="true">⧉</span>
+      <span>リンクをコピー</span>
+    </button>
+    <button class="share-button" type="button" data-share-native hidden>
+      <span class="share-button__mark share-button__mark--native" aria-hidden="true">↗</span>
+      <span>その他</span>
+    </button>
+  </div>
+  <p class="share-status" role="status" aria-live="polite" data-share-status></p>
+</section>
+
+<script is:inline>
+  document.querySelectorAll("[data-share-panel]").forEach((panel) => {
+    if (panel.dataset.shareReady === "true") return;
+    panel.dataset.shareReady = "true";
+
+    const title = panel.dataset.shareTitle || document.title;
+    const url = panel.dataset.shareUrl || window.location.href;
+    const status = panel.querySelector("[data-share-status]");
+    const copyButton = panel.querySelector("[data-share-copy]");
+    const nativeButton = panel.querySelector("[data-share-native]");
+
+    const showStatus = (message) => {
+      if (!status) return;
+      status.textContent = message;
+      window.setTimeout(() => {
+        if (status.textContent === message) status.textContent = "";
+      }, 4000);
+    };
+
+    copyButton?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        showStatus("リンクをコピーしました。");
+      } catch {
+        showStatus("コピーできませんでした。アドレスバーからURLをコピーしてください。");
+      }
+    });
+
+    if (nativeButton && navigator.share) {
+      nativeButton.hidden = false;
+      nativeButton.addEventListener("click", async () => {
+        try {
+          await navigator.share({ title, url });
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") return;
+          showStatus("共有画面を開けませんでした。");
+        }
+      });
+    }
+  });
+</script>
