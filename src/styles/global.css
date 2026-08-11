@@ -337,7 +337,7 @@ img {
 }
 
 .article-body {
-  width: min(100%, 760px);
+  width: 100%;
   min-width: 0;
   margin-inline: auto;
   padding: clamp(28px, 5vw, 54px);
