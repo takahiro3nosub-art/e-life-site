@@ -27,8 +27,11 @@ const { measurementId } = Astro.props;
     const rejectButton = document.querySelector("[data-analytics-reject]");
     const settingsButtons = document.querySelectorAll("[data-open-cookie-settings]");
     const isProductionHost = ["e-life.site", "www.e-life.site"].includes(location.hostname);
+    const isAutomatedBrowser =
+      navigator.webdriver === true ||
+      /\b(?:Codex|OpenAI|Playwright|Puppeteer|HeadlessChrome)\b/i.test(navigator.userAgent);
 
-    if (!banner || !acceptButton || !rejectButton || !isProductionHost) return;
+    if (!banner || !acceptButton || !rejectButton || !isProductionHost || isAutomatedBrowser) return;
 
     const getConsent = () => {
       try {
