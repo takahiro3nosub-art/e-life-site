@@ -10,8 +10,13 @@ tags:
   - "WordPress"
   - "Cloudflare Pages"
   - "Astro"
-image: "/og/gcp-wordpress-cloudflare-pages.png"
-imageAlt: "GCPのWordPressとCloudflare Pagesを費用や更新方法で比較する記事のカバー画像"
+image: "/og/gcp-wordpress-vs-cloudflare-pages.png"
+imageAlt: "サーバー運用と静的サイト配信を、更新・費用・保守・分析・機能の観点で比べる図"
+articleImage:
+  src: "/images/articles/gcp-wordpress-comparison/update-cost-maintenance.webp"
+  alt: "サーバーと管理画面を使う構成、更新・費用・保守・分析・機能の確認項目、静的サイトを配信する構成を並べた比較図"
+  width: 1693
+  height: 929
 draft: false
 readerState:
   - "WordPressと静的サイトのどちらにするか迷っている"
