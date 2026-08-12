@@ -1,0 +1,27 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="article-faq" aria-labelledby="article-faq-title">
+  <p class="article-faq__eyebrow">FAQ</p>
+  <h2 id="article-faq-title">よくある質問</h2>
+  <div class="article-faq__items">
+    {
+      items.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>

@@ -1,6 +1,9 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleFaq from "../../components/ArticleFaq.astro";
+import ArticleGuide from "../../components/ArticleGuide.astro";
+import CopyPrompt from "../../components/CopyPrompt.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
 import { SITE } from "../../site";
 
@@ -56,6 +59,18 @@ const jsonLd = [
       { "@type": "ListItem", position: 2, name: article.data.title, item: canonical },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: article.data.faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  },
 ];
 ---
 
@@ -85,6 +100,9 @@ const jsonLd = [
         <time datetime={article.data.updatedAt.toISOString()}>
           更新：{dateFormatter.format(article.data.updatedAt)}
         </time>
+        <time datetime={article.data.factCheckedAt.toISOString()}>
+          根拠確認：{dateFormatter.format(article.data.factCheckedAt)}
+        </time>
       </div>
       <img
         class="article-cover"
@@ -99,7 +117,15 @@ const jsonLd = [
 
   <div class="site-shell article-wrap">
     <article class="article-body">
+      <ArticleGuide
+        readerState={article.data.readerState}
+        quickAnswer={article.data.quickAnswer}
+        articleSteps={article.data.articleSteps}
+        experienceScope={article.data.experienceScope}
+      />
       <Content />
+      <CopyPrompt label={article.data.copyPrompt.label} text={article.data.copyPrompt.text} />
+      <ArticleFaq items={article.data.faq} />
       <ShareButtons title={article.data.title} url={canonical} />
     </article>
   </div>

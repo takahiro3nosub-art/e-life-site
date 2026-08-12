@@ -1,8 +1,8 @@
 ---
-title: "VercelとWordPressは何が違う？併用方法とサーバー選びをCodexと整理した"
-description: "VercelとWordPressの違い、Headless WordPressとして併用する仕組み、メリット・デメリット、WordPress用サーバーの選び方を初心者目線で整理します。"
+title: "VercelとWordPressは何が違う？併用前に知りたい仕組み・料金・判断基準"
+description: "VercelとWordPressの役割の違い、Headless WordPressとして併用する仕組み、料金と運用上の注意点を、未接続の調査範囲を明示して初心者向けに整理します。"
 publishedAt: "2026-08-11T09:05:00+09:00"
-updatedAt: "2026-08-11T09:05:00+09:00"
+updatedAt: "2026-08-13T00:00:00+09:00"
 category: "サイト構築"
 tags:
   - "Vercel"
@@ -13,228 +13,326 @@ tags:
 image: "/og/vercel-wordpress-headless.png"
 imageAlt: "VercelとWordPressの違いをCodexと整理する40代男性のイラスト"
 draft: false
+readerState:
+  - "WordPressは知っているが、Vercelが何をするサービスなのか分からない"
+  - "WordPressの記事をVercelで表示できるのか知りたい"
+  - "Headless WordPressを選ぶべきか、普通のWordPressで十分か迷っている"
+quickAnswer: "記事投稿が中心なら、まずはWordPress単体が分かりやすいです。VercelとWordPressの併用は、WordPressの投稿画面を残しながらNext.jsで独自の表示やWebアプリ機能を作りたいときの選択肢です。ただし、WordPress用サーバーは別に必要で、表示更新・プレビュー・SEO・保守も自分たちでつなぐ必要があります。"
+articleSteps:
+  - "VercelとWordPressの役割の違いを知る"
+  - "併用したときの記事表示までの流れを確認する"
+  - "料金と保守範囲を含めて、自分に必要な構成を選ぶ"
+experienceScope: "私はVercelとWordPressを実際には接続していません。この記事は、このブログをCloudflare Pagesで運営している経験を背景に、Codexとの壁打ちと2026年8月13日時点のVercel・Next.js・WordPress公式資料をもとに整理した調査記事です。"
+factCheckedAt: "2026-08-13T00:00:00+09:00"
+copyPrompt:
+  label: "自分のサイト構成を整理するための指示"
+  text: "私はWebサイト構築の初心者です。次の条件をもとに、WordPress単体と、WordPress＋Next.js＋Vercelのどちらが向いているか整理してください。条件：サイトの目的／収益化の有無／記事を更新する人／必要な独自機能／月額予算／保守できる人／更新を反映したい速さ。最初に結論を示し、理由、必要な費用項目、導入前に公式ページで確認すべき点、まだ不明な点を分けてください。料金や仕様は推測せず、確認日と公式URLを添えてください。"
+faq:
+  - question: "Vercelだけで普通のWordPressを動かせますか？"
+    answer: "一般的なPHPとデータベースで動くWordPress本体を、Vercelへそのまま設置する構成ではありません。併用する場合も、WordPress本体を動かす対応サーバーが別に必要です。"
+  - question: "VercelのHobbyプランで収益ブログを公開できますか？"
+    answer: "2026年8月13日時点の公式案内では、Hobbyは個人の非商用利用向けです。広告掲載や、アフィリエイトが主目的のサイトなどは商用利用の例に含まれます。判断が曖昧なら、公開前にVercelへ確認するのが安全です。"
+  - question: "Headless WordPressにすると必ず速くなりますか？"
+    answer: "必ずではありません。静的生成やキャッシュを活用しやすい一方、WordPress APIの応答、画像、外部スクリプト、Next.jsの実装によって結果は変わります。公開後の計測が必要です。"
+  - question: "WordPressで公開した記事はVercel側へすぐ反映されますか？"
+    answer: "自動では決まりません。再ビルド、時間指定の再検証、Webhookを使ったオンデマンド再検証など、更新方法を実装します。方式によっては次のアクセス時に再生成されるため、公開後の確認も必要です。"
+  - question: "初心者はどちらから始めるとよいですか？"
+    answer: "記事投稿が中心なら、まずWordPress単体から始めるほうが管理箇所を減らせます。独自画面や診断、会員機能などが必要になり、開発と保守を担当できる人がいる段階で併用を検討するのが現実的です。"
 ---
 
 前回、GCPでWordPressを作ろうとしたときの見積もりをきっかけに、[このブログをCloudflare Pagesで始めた経緯](/articles/gcp-wordpress-5776-cloudflare-pages/)を書きました。
 
-その後、次に気になったのがVercelです。
+そのあと気になったのが、Vercelです。
 
-「VercelとWordPressは何が違うのか」
+「WordPressの代わりになるの？」
 
-「WordPressの記事をVercelで表示することはできるのか」
+「記事だけWordPressで書いて、表示はVercelにできるの？」
 
-「その場合、WordPressはどのサーバーに置けばよいのか」
+言葉を調べるほど、Next.jsやHeadless CMSまで出てきて、私はかえって分からなくなりました。
 
-この3点をCodexと壁打ちして整理しました。
+そこでCodexと一つずつ整理してみると、迷っていた理由は単純でした。VercelとWordPressを、同じ役割のサービスとして比べていたのです。
 
-なお、今回はVercelとWordPressを実際に接続し、運用まで試した記事ではありません。私がCodexへ相談した内容と、公式情報で確認できた範囲を分けてまとめています。
+## まず明記しておきたい、私が試した範囲
 
-先に結論を言うと、VercelとWordPressは同じ種類のサービスではありません。どちらか一方を選ぶだけでなく、役割を分けて併用する方法もあります。
+私はこのブログをCloudflare Pagesで公開していますが、**VercelとWordPressを実際に接続したことはありません**。
 
-ただし、併用すれば必ず速く、安く、簡単になるわけではありません。普通のブログならWordPress単体のほうが運営しやすい場合もあります。
+この記事で私がしたことは、次の範囲です。
 
-## VercelとWordPressは、そもそも役割が違う
+- 自分が分からなかった点をCodexと整理した
+- Vercel、Next.js、WordPressの公式資料を確認した
+- どんな場合に併用が必要になりそうかを比較した
 
-Vercelは、Next.jsなどで作ったWebサイトやアプリをビルドし、公開するためのプラットフォームです。Gitへ変更を反映すると自動でデプロイでき、公開前の確認用URLも作れます。
+一方、次のことはまだ試していません。
+
+- WordPress REST APIからNext.jsへ実データを取得する
+- WordPressの公開操作をきっかけにVercel側を更新する
+- 下書きプレビューや認証を設定する
+- 実際の表示速度や月額費用を測る
+
+ここから先は、実体験の結果ではなく、**2026年8月13日時点の公式情報をもとにした導入前の整理**として読んでください。
+
+## 結論：記事が中心ならWordPress単体、独自機能が必要なら併用を検討
+
+先に私なりの判断を書くと、記事投稿が中心のブログなら、最初はWordPress単体のほうが分かりやすいです。
+
+WordPressには、記事を書く管理画面と、読者へページを見せる仕組みの両方があります。テーマやプラグインも使えるので、管理する場所を一つにできます。
+
+Vercelとの併用を考えたいのは、次のような場合です。
+
+- 記事を書く人にはWordPressの管理画面を使ってもらいたい
+- 読者が見る画面はNext.jsで自由に作りたい
+- 記事と一緒に、診断、会員画面、料金計算、AI機能などを提供したい
+- WordPressとNext.jsの両方を保守できる人がいる
+
+併用は「簡単にする方法」ではなく、**必要な自由度と引き換えに管理する範囲を増やす方法**だと理解すると、選びやすくなりました。
+
+## VercelとWordPressは何が違う？
+
+Vercelは、Next.jsなどで作ったWebサイトやアプリをビルドし、公開・配信するためのプラットフォームです。
+
+Gitリポジトリを接続した場合、ブランチへの変更やプルリクエストをきっかけにデプロイできます。公開前に確認できるPreview環境と、本番用のProduction環境も用意されています。
 
 [Vercel公式：Deploying to Vercel](https://vercel.com/docs/deployments/overview)
 
 WordPressは、記事、固定ページ、画像、カテゴリーなどを管理するCMSです。一般的な使い方では、管理画面だけでなく、読者が見るページもWordPressが生成します。
 
-簡単に分けると、次のようになります。
-
-| 項目 | Vercel | WordPress |
+| 比べる点 | Vercel | WordPress |
 |---|---|---|
-| 主な役割 | Webサイトやアプリのビルド・公開・配信 | 記事や画像などの管理 |
-| 得意なこと | Next.jsとの連携、独自画面、Webアプリ、プレビュー | 管理画面からの投稿、権限管理、プラグイン |
-| 記事管理画面 | 標準ではない | ある |
-| PHP・MySQL型のWordPress | そのままは設置できない | 別途、対応サーバーが必要 |
+| 主な役割 | Webサイトやアプリのビルド・公開・配信 | 記事や画像などの管理とページ生成 |
+| 得意なこと | Next.jsとの連携、独自画面、Webアプリ、確認用デプロイ | 管理画面からの投稿、権限、テーマ、プラグイン |
+| 記事投稿の管理画面 | 標準では用意されない | 用意されている |
+| 一般的なWordPress本体 | そのまま置く構成ではない | PHPとデータベースに対応するサーバーで動かす |
 
 <img src="/images/articles/vercel-wordpress/roles.webp" alt="Webサイトの公開基盤と記事管理システムが別の役割を持ち、連携できることを示すイラスト" width="1200" height="658" loading="lazy" decoding="async">
 
-つまり、VercelはWordPress向けレンタルサーバーの代わりではありません。
+つまり、Vercelを契約すればWordPress用サーバーが不要になる、という話ではありません。
 
-通常のWordPressを使う場合は、PHPとMySQLが動くサーバーが必要です。Vercelと併用するときも、WordPress本体を置く場所は別に用意します。
+## Headless WordPressとして併用する流れ
 
-## VercelとWordPressを併用する「Headless WordPress」とは
+WordPressを記事管理に使い、読者が見る画面をNext.jsなどで別に作る構成は、Headless WordPressと呼ばれます。
 
-WordPressを記事管理だけに使い、読者が見るサイトをNext.jsなどで作る方法を、Headless WordPressと呼びます。
+大まかな流れは次のとおりです。
 
-役割分担は次のとおりです。
-
-1. ライターや管理者がWordPressの管理画面で記事を書く
+1. WordPressの管理画面で記事を書く
 2. Next.jsがWordPress REST APIから記事データを取得する
 3. VercelがNext.jsのサイトを公開する
 4. 読者はVercel側のページを見る
 
-WordPressには、投稿、固定ページ、カテゴリー、タグ、画像などをJSON形式で取得できるREST APIがあります。
+WordPressのREST APIでは、投稿、固定ページ、カテゴリー、タグ、メディアなどの情報を取得できます。
 
 [WordPress公式：REST API Reference](https://developer.wordpress.org/rest-api/reference/)
 
-構成を一行で表すと、次のようになります。
+構成を一行にすると、こうなります。
 
 > WordPress用サーバー（記事・画像・管理画面） → REST API → Next.js → Vercel（読者が見るサイト）
 
 <img src="/images/articles/vercel-wordpress/headless-flow.webp" alt="WordPressの記事データがAPIを通り、Vercel側のWebサイトとしてパソコンやスマートフォンへ届く流れ" width="1200" height="658" loading="lazy" decoding="async">
 
-記事を公開したあと、Vercel側へ変更を反映する仕組みも必要です。サイト全体を再ビルドする方法のほか、WebhookとNext.jsのキャッシュ再検証を組み合わせ、変更したページだけを更新する方法もあります。
+ここで私が最初に見落としていたのが、記事を取得するだけでは完成しない点です。
 
-## VercelとWordPressを併用するメリット
+タイトルや本文だけでなく、画像、著者、カテゴリー、公開日時、SEO用の情報をどう受け渡すか。WordPressで記事を更新したあと、Next.js側をいつ更新するか。下書きを誰がどう確認するか。
+
+この「間をつなぐ部分」を自分たちで決める必要があります。
+
+## 併用でできること
 
 <img src="/images/articles/vercel-wordpress/benefits.webp" alt="WordPressで記事を管理しながら、自由な画面やAI機能を持つサイトを利用者へ届けるイラスト" width="1200" height="800" loading="lazy" decoding="async">
 
-### WordPressの管理画面を残せる
+### 記事を書く場所はWordPressのままにできる
 
-記事を書く人は、使い慣れたWordPress管理画面を利用できます。下書き、予約投稿、ユーザー権限、リビジョンなども使えます。
+記事を書く人はWordPressの管理画面を使えます。
 
-表側をNext.jsで作っても、記事制作までGitやコードに変える必要はありません。
+表側をNext.jsで作っても、記事制作までGitやコードへ変える必要はありません。複数人で記事を作る場合に、WordPressの権限や下書き管理を残せるのは分かりやすい利点です。
 
-### 表示側を自由に作れる
+ただし、WordPress側で使える機能が、すべてVercel側へ自動で出るわけではありません。
 
-WordPressテーマの構造に縛られず、Next.js側で画面を設計できます。
+### 読者が見る画面を自由に作れる
 
-独自のLP、料金シミュレーター、診断コンテンツ、会員画面、AI機能など、記事以外の機能を組み込みたいときに向いています。
+Next.js側では、WordPressテーマの見た目に縛られず画面を設計できます。
 
-### 高速化しやすい
+独自のLP、診断、料金シミュレーター、会員画面など、記事以外の機能を同じサイトへ組み込みたいときは、この自由度が生きそうです。
 
-記事を事前にHTMLとして生成したり、必要なページだけキャッシュしたりできます。読者がページを開くたびにWordPressのPHPとデータベースを動かさない構成にできるため、表示を安定させやすくなります。
+### 静的生成やキャッシュを使った設計ができる
 
-ただし、Headless WordPressにしただけで自動的に速くなるわけではありません。WordPress APIの応答、Next.jsの表示方式、画像サイズ、外部スクリプトなどの設計は必要です。
+Next.jsには、静的なページを配信しながら、一定時間後や必要なタイミングで内容を再検証する仕組みがあります。
 
-### WordPressの公開範囲を分けやすい
+[Next.js公式：Incremental Static Regeneration](https://nextjs.org/docs/app/guides/incremental-static-regeneration)
 
-読者が見るサイトとWordPressの管理画面を分けられます。WordPressが生成する通常の表側ページを使わず、管理画面やAPIへのアクセスを必要な範囲に絞る設計もできます。
+読者がページを開くたびにWordPressのPHPとデータベースを動かさない構成にできるため、表示を安定させやすくなります。
 
-ただし、WordPress本体がなくなるわけではありません。WordPress、プラグイン、PHP、データベースの更新、認証、バックアップは引き続き必要です。
+ただし、Headlessにしただけで必ず速くなるわけではありません。WordPress APIの応答、画像サイズ、外部スクリプト、Next.jsの実装によって結果は変わります。導入後の計測なしに「高速化できた」とは言えません。
 
-## 併用するデメリット
-
-一番大きなデメリットは、WordPress単体より構成が複雑になることです。
+## 併用前に知っておきたい負担
 
 <img src="/images/articles/vercel-wordpress/cautions.webp" alt="WordPress側とVercel側の2つの環境を見比べながら、連携やキャッシュの問題を調べるイラスト" width="1200" height="800" loading="lazy" decoding="async">
 
-### 2つの環境を保守する必要がある
+### WordPressとNext.jsの両方を保守する
 
-WordPress側では、本体、プラグイン、PHP、データベースを管理します。
+WordPress側では、本体、プラグイン、テーマ、PHP、データベース、バックアップを管理します。
 
-WordPress公式も、本体やプラグインを最新に保ち、更新前にバックアップするよう案内しています。
+WordPress公式は、更新前にファイルとデータベースをバックアップし、復元できる状態を用意するよう案内しています。
 
-[WordPress公式：Updating WordPress](https://wordpress.org/documentation/article/updating-wordpress/)
+[WordPress公式：Backups](https://developer.wordpress.org/advanced-administration/security/backup/)
 
-[WordPress公式：Manage Plugins](https://wordpress.org/documentation/article/manage-plugins/)
+[WordPress公式：Upgrading WordPress](https://developer.wordpress.org/advanced-administration/upgrade/upgrading/)
 
-Vercel側では、Next.js、npmパッケージ、API連携、環境変数、キャッシュなどを管理します。問題が起きたときも、どちら側が原因かを切り分けなければなりません。
+Vercel側では、Next.js、利用パッケージ、API連携、環境変数、キャッシュなどを管理します。
 
-### プラグインの表示機能をそのまま使えない
+不具合が出たときも、「WordPressからデータが返っていない」「Next.jsで変換できていない」「古いキャッシュが残っている」のように、原因を切り分けなければなりません。
 
-WordPress単体なら、目次、関連記事、人気記事、フォーム、サイト内検索、SEO設定などをプラグインで追加できます。
+### プラグインを入れただけでは表示されないことがある
 
-Headless構成では、プラグインを入れただけでVercel側の画面に機能が出るとは限りません。プラグインが持つデータをAPIで取得し、Next.js側で表示を作る必要があります。
+WordPress単体なら、目次、関連記事、フォーム、サイト内検索、SEO設定などをプラグインで追加できます。
 
-特に、テーマの見た目を変えるプラグインや、WordPressの画面内で動く機能は、そのまま移せないと考えたほうが安全です。
+Headless構成では、プラグインが持つデータをAPIで取得し、Next.js側にも表示処理を作らなければ反映されない場合があります。特にテーマの見た目やWordPress上で動く機能は、そのまま使えるとは限りません。
 
-### 下書きプレビューに設定が必要
+契約や開発を始める前に、「今使っている機能を、どちら側で再現するのか」を一覧にしたほうがよさそうです。
 
-WordPressの「プレビュー」ボタンを押しただけでは、Vercel側の下書き画面が自動で開くとは限りません。
+### 下書きプレビューは連携が必要
 
-Next.jsにはHeadless CMSの下書きを確認するDraft Modeがありますが、WordPressの認証やプレビューURLとの連携を実装する必要があります。
+Next.jsには、静的な公開ページとは別に下書き内容を確認するDraft Modeがあります。
 
 [Next.js公式：Draft Mode](https://nextjs.org/docs/app/api-reference/functions/draft-mode)
 
-### 記事更新とキャッシュのずれが起きることがある
+ただし、WordPressのプレビューボタンを押せば自動で完成するわけではありません。WordPress側の認証、プレビューURL、Next.js側のRoute Handlerなどを安全につなぐ必要があります。
 
-WordPressで公開したのにVercel側が古いまま、という状態も起こり得ます。
+### 公開した記事がすぐ反映されるとは限らない
 
-Webhook、再ビルド、キャッシュ再検証が正しく動いているかを確認し、失敗時に気づけるようにする必要があります。
+記事の更新方法には、サイトの再ビルド、時間指定の再検証、Webhookをきっかけにしたオンデマンド再検証などがあります。
 
-### SEOもNext.js側で実装する
+Next.jsの`revalidatePath`は対象パスのキャッシュを無効化しますが、公式資料では、実際の再生成は次回アクセス時に行われると説明されています。タグを使う方法も、設定によっては古い内容を返しながら背景で更新します。
 
-タイトル、メタディスクリプション、canonical、OGP、構造化データ、パンくず、サイトマップ、リダイレクトなどは、読者が見るNext.js側へ正しく出力します。
+[Next.js公式：revalidatePath](https://nextjs.org/docs/app/api-reference/functions/revalidatePath)
 
-WordPressのSEOプラグインへ入力した情報も、APIから取得してNext.js側に反映する処理がなければ、公開ページには表示されません。
+そのため、公開ボタンを押したら終わりではなく、Vercel側の公開ページで新しいタイトル、本文、画像、URLを確認する工程が必要です。
 
-## Vercelの料金で見落としやすい点
+### SEO情報もNext.js側へ出す
 
-Vercelには無料のHobbyプランがありますが、公式案内では非商用の個人利用向けです。
+タイトル、メタディスクリプション、canonical、OGP、構造化データ、パンくず、サイトマップ、リダイレクトなどは、最終的に読者や検索エンジンが見るNext.js側へ出力します。
 
-Vercelの基準では、広告を掲載するサイト、商品を販売するサイト、報酬を受けて制作・運用するサイト、アフィリエイトを主目的とするサイトなどは商用利用に当たります。商用利用にはProまたはEnterpriseプランが必要です。
+Next.jsにはMetadata APIやサイトマップ用の仕組みがありますが、WordPressのSEOプラグインへ入力した情報を使うなら、そのデータを取得して対応する項目へ渡す実装が必要です。
+
+[Next.js公式：Metadata and OG images](https://nextjs.org/docs/app/getting-started/metadata-and-og-images)
+
+## Vercelの料金は「無料」だけで決めない
+
+2026年8月13日に公式料金ページを確認したところ、Hobbyは月額0ドル、Proは月額20ドルと表示されています。Proには20ドル分の利用クレジットが含まれますが、対象リソースの利用量によって追加料金が発生します。
+
+[Vercel公式：Pricing](https://vercel.com/pricing)
+
+ここで重要なのは、Hobbyの利用目的です。
+
+Vercelの公式案内では、Hobbyは個人の非商用利用に限定されています。広告の掲載、商品の販売、制作や運用への報酬、アフィリエイトがサイトの主目的である場合などは、商用利用の例として挙げられています。
 
 [Vercel公式：Hobby Plan](https://vercel.com/docs/plans/hobby)
 
 [Vercel公式：Fair Use Guidelines](https://vercel.com/docs/limits/fair-use-guidelines#commercial-usage)
 
-「Vercelなら無料」と決めつけず、サイトの目的と最新の利用条件を確認することが大切です。Vercelの費用に加えて、WordPress用サーバー、ドメイン、画像配信、外部サービスの費用も考えます。
+収益化の線引きが曖昧なら、自分で都合よく判断せず、Vercelへ確認するのが安全です。
 
-## WordPress用サーバーはどう選ぶ？
+また、月額20ドルだけで構成全体の費用は決まりません。
 
-WordPressをCMSとして使うだけなら、最初からGCPのようなクラウドを自分で構築する必要はありません。
+- Proの基本料金と利用量に応じた料金
+- WordPress用サーバー
+- ドメイン
+- 画像配信や外部サービス
+- 開発、監視、障害対応にかかる時間
+
+税、地域、為替、契約条件も含め、申し込み直前に公式画面で見積もる必要があります。
+
+## WordPress用サーバーは何を見て選ぶ？
+
+WordPressをCMSとして使う場合も、最初からGCPやAWSで細かく構築する必要があるとは限りません。
 
 <img src="/images/articles/vercel-wordpress/hosting-options.webp" alt="レンタルサーバー、マネージドWordPress、クラウドの3つの選択肢を比較するイラスト" width="1200" height="800" loading="lazy" decoding="async">
 
-GCP、AWSなどでも運用できますが、仮想マシン、データベース、バックアップ、監視、障害対応まで自分たちで設計する範囲が増えます。
-
-小〜中規模のブログやメディアなら、まずWordPress対応のレンタルサーバーやマネージドWordPressを比較するほうが分かりやすいです。
-
-候補の種類は、次の3つに分けられます。
-
-| 選択肢 | 向いているケース | 注意点 |
+| 選択肢 | 向いている場面 | 確認したいこと |
 |---|---|---|
-| 国内レンタルサーバー | 小さく始めたい、費用を抑えたい | REST API、Webhook、WAFの相性を確認 |
-| マネージドWordPress | 保守や障害対応の負担を減らしたい | 月額料金、アクセス・通信量の上限を確認 |
-| GCP・AWSなどのクラウド | 特別なネットワーク要件や細かな構成管理が必要 | 構築・監視・復旧を行う知識と時間が必要 |
+| WordPress対応レンタルサーバー | 小さく始めたい | REST API、Webhook、WAF、バックアップ |
+| マネージドWordPress | 保守の負担を減らしたい | 月額料金、通信量、ステージング、制限 |
+| GCP・AWSなどのクラウド | 特別な構成や細かな管理が必要 | 構築、監視、復旧を担当できるか |
 
-具体的なサービス名では、国内レンタルサーバーに[エックスサーバー](https://www.xserver.ne.jp/)、[ConoHa WING](https://www.conoha.jp/wing/)、[さくらのレンタルサーバ](https://rs.sakura.ad.jp/)、[mixhost](https://mixhost.jp/)などがあります。マネージドWordPressには[Kinsta](https://kinsta.com/jp/wordpress-hosting/)、[WP Engine](https://wpengine.com/)などがあります。
-
-これは順位ではなく、比較候補の例です。料金や機能は変わるため、契約時に公式情報を確認します。
-
-Headless WordPress用として確認したいポイントは、次のとおりです。
+Headless用途なら、私は次を契約前チェックに入れます。
 
 - WordPress REST APIへ外部から安定してアクセスできるか
-- SSLを簡単に設定できるか
-- WAFや海外アクセス制限がVercelからのAPI通信を止めないか
-- WordPressからWebhookを送信できるか
-- Web、画像、データベースの自動バックアップと復元があるか
-- ステージング環境を作れるか
-- APIの応答が遅すぎないか
-- アクセス増加時の上限や追加料金が分かりやすいか
+- SSLを設定できるか
+- WAFやアクセス制限がVercelからの通信を止めないか
+- WordPressからWebhookを送れるか
+- ファイルとデータベースのバックアップ、復元方法があるか
+- ステージング環境を使えるか
+- APIの応答と通信量の上限はどうなっているか
+- 障害時にどこまでサポートしてもらえるか
 
-REST APIはWordPressの標準機能ですが、サーバーのWAFやセキュリティ設定によっては通信が止まる場合があります。契約前に、利用予定の構成をサポートへ確認すると安心です。
+WordPress公式も、初心者にはWordPress運用の経験があるホスティング事業者を検討する考え方を案内しています。
 
-## 結局、どの構成を選べばよい？
+[WordPress公式：Hosting WordPress](https://wordpress.org/documentation/article/hosting-wordpress/)
 
-記事投稿とSEO運用が中心なら、最初はWordPress単体で十分です。
+サービス名や月額料金は変わりやすいため、この記事では順位を付けません。候補を決めたら、「Headless WordPressで外部のVercelからREST APIへアクセスする予定」と伝え、サポートへ確認するのが確実です。
 
-管理画面、テーマ、プラグインをそのまま使えるため、開発する部分を減らせます。
+## 私なら、この3段階で決める
 
-一方、次の条件が多いなら、VercelとWordPressの併用を検討する価値があります。
+### 1. 記事だけで目的を達成できるか
 
-- ライターはWordPressで記事を書きたい
-- 表側はNext.jsで自由に作りたい
-- 記事とWebアプリを同じサイトで提供したい
-- 独自のLP、診断、AI機能を組み込みたい
-- 複数のサイトやアプリへ同じ記事データを配信したい
-- WordPressとNext.jsの両方を保守できる人がいる
+記事、固定ページ、問い合わせフォームが中心なら、WordPress単体で足りる可能性が高いです。
 
-大切なのは、「VercelとWordPressのどちらが優れているか」ではありません。
+まず管理箇所を増やさず、必要になった機能を見てから考えます。
 
-> 誰が記事を書き、どこまで独自機能が必要で、誰が2つの環境を保守するのか。
+### 2. Next.jsでなければ困る機能があるか
 
-ここを先に決めると、選びやすくなります。
+独自の診断、会員画面、複雑な検索、AI機能など、テーマやプラグインでは作りにくい要件があるかを確認します。
 
-## まとめ：普通のブログなら、最初から併用しなくてもよい
+「なんとなく新しそう」「速そう」だけなら、私にはまだ併用する理由として弱く感じます。
 
-Codexと壁打ちして分かったのは、VercelとWordPressは競合というより、役割の違うサービスだということです。
+### 3. 公開後の保守を誰が続けるか
 
-- VercelはNext.jsなどのサイトやアプリを公開する基盤
-- WordPressは記事や画像を管理するCMS
-- WordPressをCMS、Vercelを表示側として併用できる
-- 併用時もWordPress用サーバーは別に必要
-- Headless構成では、プレビュー、キャッシュ、SEO、プラグイン機能の連携が必要
-- Vercelの無料Hobbyプランは非商用の個人利用向け
-- 普通のブログならWordPress単体のほうが簡単な場合も多い
+作れる人がいることと、保守を続けられることは別です。
 
-最初から複雑な構成にせず、必要な機能に合わせて小さく始めるのが現実的です。
+WordPress更新、Next.js更新、バックアップ、公開確認、不具合の切り分けまで担当を決められるなら、ようやく併用が現実的になります。
 
-記事運用だけならWordPress単体。独自画面やWebアプリ機能が必要になったら、Vercelとの併用を検討する。この順番なら、目的が曖昧なまま開発コストだけが増えるのを避けやすいと感じました。
+## 導入前に使える、Codexへのコピペ用指示
 
-※この記事は、2026年8月11日時点の公式情報と、Codexとの壁打ち内容をもとに整理しています。料金、上限、利用条件は変更される可能性があるため、導入前に各サービスの公式ページをご確認ください。
+自分の条件を整理するときは、記事上部の「コピペ用の指示」に、次の情報を足すと判断しやすくなります。
+
+- サイトの目的
+- 収益化の有無
+- 月に公開する記事数
+- 記事を更新する人数
+- 必要な独自機能
+- 月額予算
+- 保守を担当する人
+- 記事公開から反映まで許容できる時間
+
+AIの回答だけで契約を決めず、最後に料金と利用条件の公式URLを自分でも開くことが大切です。
+
+## 公開前に確認した公式情報
+
+この記事では、2026年8月13日に次を公式資料で再確認しました。
+
+- VercelのHobby、Proの料金表示と利用目的
+- Hobbyにおける商用利用の考え方
+- VercelのGit連携、Preview、Productionの役割
+- WordPress REST APIで扱える主なデータ
+- Next.jsのISR、オンデマンド再検証、Draft Mode
+- WordPressの更新とバックアップの考え方
+
+確認できていないのは、私の構成での実料金、実測速度、サーバーごとのAPI相性、下書きプレビューの使い勝手です。ここは実際に接続して試すまで結論を出せません。
+
+## まとめ：役割の違いが分かると、無理に併用しなくてよくなった
+
+調べる前の私は、VercelとWordPressのどちらを選ぶのかで迷っていました。
+
+整理したあとの答えは、もっと単純でした。
+
+- Vercelは、Next.jsなどのサイトやアプリを公開・配信する基盤
+- WordPressは、記事や画像を管理し、通常はページも生成するCMS
+- WordPressを記事管理、Next.jsとVercelを表示側として併用できる
+- 併用してもWordPress用サーバーは別に必要
+- 更新反映、下書き、SEO、プラグイン機能、保守をつなぐ必要がある
+- Vercel Hobbyは、公式上は個人の非商用利用向け
+- 記事中心なら、WordPress単体のほうが分かりやすい場合が多い
+
+私自身はまだ接続していないので、「この構成がおすすめ」と実体験のようには言えません。
+
+ただ、**誰が記事を書き、どんな独自機能が必要で、誰が二つの環境を保守するのか**を先に決めれば、流行だけで構成を選ぶ失敗は減らせそうです。
+
+※料金、上限、利用条件、Next.jsの仕様は変更される可能性があります。導入時は各公式ページの最新情報をご確認ください。

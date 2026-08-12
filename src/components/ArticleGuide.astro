@@ -1,0 +1,32 @@
+---
+interface Props {
+  readerState: string[];
+  quickAnswer: string;
+  articleSteps: string[];
+  experienceScope: string;
+}
+
+const { readerState, quickAnswer, articleSteps, experienceScope } = Astro.props;
+---
+
+<aside class="article-guide" aria-labelledby="article-guide-title">
+  <p class="article-guide__eyebrow">最初に確認</p>
+  <h2 id="article-guide-title">この記事は、こんなところで迷っている人向けです</h2>
+  <ul>
+    {readerState.map((item) => <li>{item}</li>)}
+  </ul>
+
+  <section class="article-guide__answer" aria-labelledby="quick-answer-title">
+    <h3 id="quick-answer-title">先に結論</h3>
+    <p>{quickAnswer}</p>
+  </section>
+
+  <section aria-labelledby="article-steps-title">
+    <h3 id="article-steps-title">この記事で確認すること</h3>
+    <ol>
+      {articleSteps.map((step) => <li>{step}</li>)}
+    </ol>
+  </section>
+
+  <p class="article-guide__scope"><strong>この記事の範囲：</strong>{experienceScope}</p>
+</aside>

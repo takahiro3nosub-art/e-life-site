@@ -1,0 +1,37 @@
+---
+interface Props {
+  label: string;
+  text: string;
+}
+
+const { label, text } = Astro.props;
+---
+
+<section class="copy-prompt" aria-labelledby="copy-prompt-title">
+  <p class="copy-prompt__eyebrow">コピーして使えます</p>
+  <div class="copy-prompt__head">
+    <h2 id="copy-prompt-title">{label}</h2>
+    <button type="button" class="copy-prompt__button" data-copy-prompt>指示をコピー</button>
+  </div>
+  <pre><code data-copy-prompt-text>{text}</code></pre>
+  <p class="copy-prompt__status" data-copy-prompt-status aria-live="polite"></p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".copy-prompt").forEach((container) => {
+    const button = container.querySelector<HTMLButtonElement>("[data-copy-prompt]");
+    const source = container.querySelector<HTMLElement>("[data-copy-prompt-text]");
+    const status = container.querySelector<HTMLElement>("[data-copy-prompt-status]");
+
+    button?.addEventListener("click", async () => {
+      if (!source || !status) return;
+
+      try {
+        await navigator.clipboard.writeText(source.textContent ?? "");
+        status.textContent = "コピーしました。必要な部分を書き換えて使ってください。";
+      } catch {
+        status.textContent = "コピーできませんでした。文章を選択してコピーしてください。";
+      }
+    });
+  });
+</script>

@@ -1,190 +1,308 @@
 ---
-title: "GCPのWordPressとCloudflare Pagesを比較｜低コストな情報メディアに合うのはどちら？"
-description: "GCP Compute Engine＋WordPressとCloudflare Pages＋Astro＋Markdownを、費用、保守、投稿、SEO、AIとの相性から比較します。"
+title: "GCPのWordPressとCloudflare Pagesを公式情報で比較｜費用・保守・更新方法"
+description: "GCP Compute Engine＋WordPressとCloudflare Pages＋Astro＋Markdownを、費用、無料枠、保守、投稿、SEO、動的機能から公式情報をもとに比較します。"
 publishedAt: "2026-08-11"
-updatedAt: "2026-08-11"
+updatedAt: "2026-08-13"
 category: "サイト構築"
 tags:
   - "GCP"
   - "WordPress"
   - "Cloudflare Pages"
-draft: true
+  - "Astro"
+image: "/og/gcp-wordpress-cloudflare-pages.png"
+imageAlt: "GCPのWordPressとCloudflare Pagesを費用や更新方法で比較する記事のカバー画像"
+draft: false
+readerState:
+  - "WordPressと静的サイトのどちらにするか迷っている"
+  - "無料枠だけでなく保守や更新方法まで比較したい"
+  - "AIやCodexを使った少人数運営を考えている"
+quickAnswer: "少人数でMarkdownとGitを使い、静的な記事を中心に公開するならCloudflare Pagesが有力です。ブラウザーの管理画面、複数人の権限、予約投稿、WordPress向けプラグインが必要ならWordPressが向きます。料金より先に更新方法で絞ると選びやすくなります。"
+articleSteps:
+  - "比較する2つの構成をそろえる"
+  - "更新方法と必要機能で候補を絞る"
+  - "費用・無料枠・保守・SEOを比べる"
+  - "公式上限と導入時の見積もりを再確認する"
+experienceScope: "この記事は主に公式情報を整理した比較資料です。筆者の実体験は、GCPのClick to Deploy WordPressでデプロイ前の見積画面まで進み、Cloudflare Pages＋Astro＋Markdownでe-life.siteを公開した範囲に限ります。GCP上のWordPress本番運用は未経験です。"
+factCheckedAt: "2026-08-13T00:00:00+09:00"
+copyPrompt:
+  label: "WordPressと静的サイトを比較する指示"
+  text: "私のサイト要件を整理してください。最初に、更新人数、記事を書く場所、予約・承認、会員・決済・検索・フォーム、既存WordPress資産、月額予算、保守できる範囲を質問してください。その回答をもとに、GCP上のWordPressとCloudflare Pages上の静的サイトを比較し、向いている方、追加費用になり得る項目、導入前に公式ページで再確認する項目を表にしてください。分からない条件は推測せず質問してください。"
+faq:
+  - question: "結局、初心者にはどちらが簡単ですか？"
+    answer: "記事をブラウザーだけで書きたいならWordPressが分かりやすい一方、サーバー保守まで含めると作業が増えます。MarkdownやGitをCodexに手伝ってもらう運用なら、Cloudflare Pagesも候補になります。"
+  - question: "SEOはWordPressの方が強いですか？"
+    answer: "ホスティング方式だけで順位は決まりません。どちらでもtitle、canonical、構造化データ、サイトマップ、表示速度などを整えられます。WordPressはプラグインで設定しやすく、静的サイトは実装を管理しやすいという違いです。"
+  - question: "Cloudflare Pagesはアクセスが増えても無料ですか？"
+    answer: "Functionsを呼ばない静的アセットのリクエストは、2026年8月13日時点で無料・無制限です。ただし、動的処理、外部サービス、ストレージ、ビルドやファイル数には別の料金・上限があります。"
+  - question: "GCPの無料枠でWordPressを始めるのはありですか？"
+    answer: "条件を理解して試す選択はあります。ただし、無料枠対象は米国3リージョンのe2-microなどに限られ、性能や運用負荷が用途に合うかは別に確認が必要です。"
+  - question: "あとからWordPressへ移行できますか？"
+    answer: "可能です。URL、記事本文、画像、公開日、カテゴリなどを移しやすい形で管理しておくと作業を減らせます。移行前にURL維持とリダイレクトを設計してください。"
 ---
 
-# GCPのWordPressとCloudflare Pagesを比較｜低コストな情報メディアに合うのはどちら？
+WordPressとCloudflare Pagesは、同じ種類のサービスではありません。
 
-更新日：2026年8月11日
+この記事では、個人や少人数で記事サイトを作るときの具体的な2構成を比べます。
 
-## タイトル案5個
+- **GCP Compute Engine＋WordPress**：仮想マシンでWordPressとデータベースを動かす
+- **Cloudflare Pages＋Astro＋Markdown**：作成済みのHTML、CSS、画像を静的配信する
 
-1. GCPのWordPressとCloudflare Pagesを比較｜低コストな情報メディアに合うのはどちら？
-2. WordPressは本当に必要？GCPとCloudflare Pagesの費用・運用を初心者向けに比較
-3. 月5,776円のGCPか無料枠のCloudflare Pagesか｜情報メディアの作り方を比較
-4. AIで記事を作るならどっち？Compute Engine＋WordPressとCloudflare Pages＋Astro
-5. サーバー代を抑えてメディアを始める方法｜WordPressと静的サイトの選び方
+結論は、料金だけでは決められません。
 
-## メタディスクリプション
+少人数でMarkdownとGitを使い、記事中心のサイトを運営するならCloudflare Pagesが有力です。ブラウザーの管理画面、複数人の権限、予約投稿、WordPress向けプラグインをすぐ使いたいならWordPressが向きます。
 
-GCP Compute Engine＋WordPressと、Cloudflare Pages＋Astro＋Markdownを初心者向けに比較。費用、無料枠、SEO、投稿、保守、複数人編集、AI・Codexとの相性を2026年8月11日時点の公式情報で解説します。
+私がGCPの見積画面を見てCloudflare Pagesへ方針を変えた経緯は、[月5,776円の見積もりから考え直した体験記](/articles/gcp-wordpress-5776-cloudflare-pages/)に分けました。この記事では、その体験を繰り返さず、公式情報で比較できる材料に絞ります。
 
-## 結論：AI中心の情報メディアなら、まずCloudflare Pagesが有力
+## 最初に比べるのは「記事をどう更新するか」
 
-新しい情報メディアで、記事作成やサイト更新をAI・Codexに任せ、固定費を抑えたいなら、最初は「Cloudflare Pages＋Astro＋Markdown」が有力です。静的な記事ページは高速に配信しやすく、サーバーやデータベースの更新作業もありません。
+初心者だった私は、最初にサーバー料金を比べようとしました。
 
-一方、ブラウザーの管理画面から非技術者が頻繁に投稿する、外部ライターごとに権限を分ける、標準機能で予約投稿する、といった運営にはWordPressが向きます。
+実際には、先に決めた方がよかったのは更新方法です。
 
-ここで比べるのは「GCP全体」と「Cloudflare Pages」ではありません。具体的に次の2構成を比較します。
+### WordPressが合いやすい更新方法
 
-- A：GCP Compute Engineの1台の仮想マシンにWordPressを置く構成
-- B：Cloudflare PagesでAstroなどが生成した静的ファイルを配信する構成
+- ブラウザーの管理画面から記事と画像を投稿する
+- 編集者、投稿者、寄稿者などの権限を分ける
+- 下書きや予約投稿を管理画面で扱う
+- WordPress向けテーマやプラグインを使う
+- コードやGitを触らない人も更新する
 
-## GCPで月5,776円と表示されるまでの経緯
+WordPressには複数のユーザー権限があり、管理画面で投稿状態を扱えます。
 
-独自ドメイン「e-life.site」で「AIエージェントナレッジ」を扱う情報メディアを作るため、GCPプロジェクトを作成し、Google Click to DeployのWordPressデプロイ画面まで進みました。
+- [WordPress公式：Roles and Capabilities](https://wordpress.org/documentation/article/roles-and-capabilities/)
+- [WordPress公式：投稿設定](https://wordpress.org/documentation/article/page-post-settings-sidebar/)
 
-選択したのは、東京リージョン、e2-medium、メモリ4GB、バランス永続ディスク30GBです。2026年8月11日に画面へ表示された月額見積もりは5,776円でした。内訳表示はVMが5,138円、ディスクが639円、Click to Deployの使用料が0円です。
+### Cloudflare Pagesが合いやすい更新方法
 
-これは全利用者共通の料金ではありません。リージョン、マシン、ディスク、為替、利用時間などで変わる、当該日時・構成の画面表示額です。内訳を単純合計すると総額と1円差がありますが、理由は確認できていないため、ここでは画面表示値をそのまま記載します。
+- Markdownで記事を管理する
+- GitHubなどで変更履歴とレビューを扱う
+- AIやCodexに記事とコードの修正を頼む
+- 公開前のプレビューで確認する
+- 記事閲覧時にデータベース処理を必要としない
 
-Googleは、Compute EngineへのWordPressのワンクリック展開を「低〜中程度のトラフィック」向けとして案内しています（[Google Cloud公式](https://cloud.google.com/wordpress)）。ただし、無料なのはWordPress本体やClick to Deployの使用料であり、稼働するVMまで無条件に無料になるわけではありません。
+Cloudflare PagesはGitHubまたはGitLabと連携でき、ブランチの変更を自動でビルド・公開できます。カスタムブランチやプルリクエストのプレビューURLも作れます。
 
-見積額を見て「WordPressは本当に必要か」「無料ではできないか」と疑問を持ち、Cloudflare Pagesも候補に加えました。
+[Cloudflare公式：Git integration](https://developers.cloudflare.com/pages/configuration/git-integration/)
 
-## 比較対象となる2つの構成
-
-### A：GCP Compute Engine＋WordPress
-
-Compute EngineはGoogle Cloud上で仮想サーバーを借りるサービスです。その中でWordPressとデータベースを動かし、管理画面から記事を投稿します。
-
-### B：Cloudflare Pages＋Astro＋Markdown
-
-Astroは、Markdownで書いた原稿から公開用HTMLを生成できる静的サイトジェネレーターです。Markdownは、見出しを`#`、箇条書きを`-`で表す軽量な文章形式です。
-
-生成済みのHTML、CSS、画像をCloudflare Pagesへ配置します。記事閲覧では通常、サーバー処理やデータベース照会を行いません。GitHubへの変更を自動公開でき、プルリクエストのプレビューも使えます（[Cloudflare公式](https://developers.cloudflare.com/pages/configuration/git-integration/)）。
-
-## 比較一覧表
+## 比較一覧
 
 | 比較項目 | GCP Compute Engine＋WordPress | Cloudflare Pages＋Astro＋Markdown |
 |---|---|---|
-| 初期・月額費用 | WordPress本体は無料。VM、ディスク、外部IPv4、通信、バックアップ等は課金対象になり得る | 静的配信は無料枠で月額0円運用が可能。ドメイン代や外部サービスは別 |
-| 無料枠 | 条件が狭い。東京・e2-medium・バランスディスクは常時無料枠の組み合わせではない | [月500ビルド、2万ファイル、1ファイル25MiBまで](https://developers.cloudflare.com/pages/platform/limits/) |
-| 表示速度 | キャッシュやCDN設定で高速化できるが、未調整ではPHP・DB処理の影響を受ける | 静的ファイルをCloudflareの分散ネットワークから配信 |
-| セキュリティ | OS、WordPress、テーマ、プラグイン、管理画面を継続管理 | 公開部分にDBやWordPress管理画面がなく、攻撃対象を減らしやすい |
-| サーバー保守 | OS更新、監視、障害対応、容量管理が必要 | 配信サーバーのOS保守は不要 |
-| バックアップ | DB、アップロード画像、設定、ディスクを設計して保存 | 原稿・コードはGitで履歴化。過去の本番デプロイへロールバック可能 |
-| 記事投稿 | ブラウザーの管理画面 | Markdownを編集してGitへ反映 |
-| 複数人編集 | ユーザーと権限を管理画面で設定しやすい | GitHubのブランチ、レビュー、権限で管理 |
-| 予約・承認 | 予約投稿、下書き、レビュー待ち、役割が標準で使いやすい | GitHub Actions等で自作。標準の編集画面はない |
-| プラグイン | SEO、フォーム、ECなど豊富 | WordPressプラグインは使えない。機能をコードや外部サービスで追加 |
-| SEO | プラグインで設定しやすい | title、canonical、構造化データ、サイトマップ等を実装・自動生成 |
-| 問い合わせ | フォーム系プラグインを利用可能 | 外部フォームまたはPages Functionsで処理 |
-| サイト内検索 | WordPress標準検索や検索プラグイン | 小規模ならビルド時索引、大規模なら外部検索サービス |
-| アクセス増加 | VM増強、キャッシュ、CDN、DB分離などを検討 | 静的閲覧は自動的に分散配信。動的処理は別途上限管理 |
-| 移行 | DB・テーマ・プラグイン依存の整理が必要 | Markdownと画像を保持すれば他環境へ移しやすい |
-| AI・Codex | REST APIや管理画面自動化が可能だが、認証と本番更新に注意 | テキストとコードの差分をAIが編集・テストしやすい |
+| 主な更新場所 | WordPress管理画面 | MarkdownとGit |
+| 基本費用 | VM、ディスク、外部IPv4、通信、バックアップなど | 静的配信は無料枠から開始可能。外部サービスや動的処理などは別 |
+| 複数人の権限 | WordPressの役割を使いやすい | Gitホスティング側の権限とレビューで設計 |
+| 予約・承認 | 管理画面で扱いやすい | CIや運用ルールを別に設計 |
+| 機能追加 | WordPress向けプラグイン | コード、Pages Functions、外部サービス |
+| 保守 | OS、PHP、DB、WordPress、テーマ、プラグインなど | 配信サーバーのOS管理は不要。Astro、依存関係、公開設定は更新が必要 |
+| バックアップ | DB、画像、設定、ディスクを含めて設計 | 原稿とコードはGitで履歴化。外部データは別管理 |
+| SEO設定 | 本体・テーマ・プラグインで設定 | テンプレートやビルド処理で実装 |
+| 動的機能 | WordPress本体やプラグインで追加しやすい | Functionsや外部サービスを組み合わせる |
+| AI・Codexとの作業 | REST APIやファイル編集で連携 | 記事とコードの差分を一緒に確認しやすい |
 
-## GCP＋WordPressのメリット・デメリット
+## 費用は同じ条件にできない
 
-最大のメリットは、完成度の高いCMS（コンテンツ管理システム）をすぐ使えることです。編集者、投稿者、寄稿者などの権限を分け（[WordPress公式](https://wordpress.org/documentation/article/roles-and-capabilities/)）、予約投稿やレビュー待ちも管理画面から設定できます（[WordPress公式](https://wordpress.org/documentation/article/page-post-settings-sidebar/)）。
+### GCP＋WordPressで費用になり得るもの
 
-SEO、キャッシュ、フォーム、ECなどをプラグインで追加できる点も強みです。ただし、プラグインは機能追加と同時に更新対象にもなります。WordPress公式も、セキュリティと性能のためプラグインを最新に保つよう案内しています（[WordPress公式](https://wordpress.org/documentation/article/manage-plugins/)）。
+WordPress本体はオープンソースですが、Compute Engine上で動かす資源は別です。
 
-Compute Engineでは、VM内部の運用は利用者側に残ります。長期間動かすVMには定期的なOS更新が必要です（[Google Cloud公式](https://docs.cloud.google.com/compute/vm-manager/docs/patch)）。WordPress、テーマ、プラグイン、PHP、データベース、バックアップ、障害復旧も管理します。
+主に次の項目を見積もります。
 
-料金面では、ディスク容量は未使用部分を含む確保容量に課金され、スナップショットには別料金が発生します（[Google Cloud公式](https://cloud.google.com/compute/disks-image-pricing)）。標準VMで使用中の外部IPv4は2026年8月11日時点で1時間0.005米ドルです（[Google Cloud公式](https://cloud.google.com/vpc/network-pricing#ipaddress)）。通信量も条件により課金されます。
+- VMインスタンス
+- 永続ディスク
+- 外部IPv4アドレス
+- インターネットへのデータ転送
+- スナップショットやバックアップ
+- 監視、ログ、外部サービス
 
-## Cloudflare Pagesのメリット・デメリット
+Google Cloud公式は、ディスク料金、ネットワーク料金、実際のコンソールや料金計算ツールを分けて案内しています。通貨や契約条件でも表示は変わるため、記事中の一例をそのまま自分の月額にはできません。
 
-静的な記事、カテゴリ、タグ、著者ページ、パンくず、RSS、サイトマップ、構造化データ、関連記事まで作れます。記事を読むだけならPages Functionsを動かす必要はありません。Cloudflare公式では、Functionsを呼ばない静的アセットへのリクエストは無料かつ無制限です（[Cloudflare公式](https://developers.cloudflare.com/pages/functions/pricing/#static-asset-requests)）。
+- [Google Cloud：ディスクとイメージの料金](https://cloud.google.com/compute/disks-image-pricing)
+- [Google Cloud：VPCネットワーク料金](https://cloud.google.com/vpc/network-pricing#ipaddress)
+- [Google Cloud：料金計算ツール](https://cloud.google.com/products/calculator)
 
-配信ファイルは標準でTiered Cacheから提供され、GzipやBrotli圧縮にも対応します（[Cloudflare公式](https://developers.cloudflare.com/pages/configuration/serving-pages/#caching-and-performance)）。静的閲覧では1台のサーバー負荷を心配しにくい構成です。
+私の画面では、2026年8月11日に東京、e2-medium、バランス永続ディスク30GBで月5,776円と表示されました。ただし、これは一般料金ではなく、デプロイ前の一例です。
 
-反面、投稿管理画面は標準ではありません。非技術者が投稿するには、GitHubでMarkdownを編集する、Git対応CMSを加えるなどの準備が必要です。予約投稿や承認もGitHub Actions、ブランチ保護、プルリクエストで設計します。
+### Cloudflare Pagesで費用になり得るもの
 
-お問い合わせ、ログイン、コメント、会員情報の保存は「動的機能」です。Pages Functionsならフォーム処理や認証を追加できます（[Cloudflare公式](https://developers.cloudflare.com/pages/functions/)）が、そのリクエストはWorkers枠として数えます。静的配信の無制限枠とは別です。
+Functionsを呼ばない静的アセットへのリクエストは、Freeプランでも無料・無制限です。
 
-## WordPressが必須になるケース
+ただし、サイト運営全体が必ず0円になるわけではありません。
 
-次の条件が多いなら、WordPressを選ぶ理由があります。
+- 独自ドメイン
+- Pages FunctionsやWorkersの動的処理
+- R2などのストレージ
+- 外部フォーム、検索、認証、メール配信
+- AI APIや有料の制作ツール
 
-- 非技術者がブラウザーだけで記事や画像を投稿したい
-- 外部ライターが多く、寄稿者・編集者・管理者の権限を分けたい
-- 予約投稿、下書き、承認待ち、リビジョン復元をすぐ使いたい
-- 既存のWordPressテーマやプラグインが運営要件になっている
-- コメント、会員、決済、ECなどをプラグイン中心で構築したい
-- エンジニアを介さず管理画面で設定変更したい
+静的な閲覧と動的な処理を分けて見積もるのがポイントです。
 
-逆に、記事更新をAI・Codexと少人数で行い、公開前にGitの差分を確認できるなら、WordPressは必須ではありません。
+[Cloudflare公式：Pages Functionsの料金](https://developers.cloudflare.com/pages/functions/pricing/)
 
-## Cloudflare Pages無料枠でできること
+## 無料枠の違い
 
-2026年8月11日時点のFreeプランは、月500ビルド、同時ビルド1件、1ビルド最大20分、プロジェクトごとに独自ドメイン100件です。1サイトは最大2万ファイル、1ファイルは最大25MiBです（[Cloudflare公式](https://developers.cloudflare.com/pages/platform/limits/)）。
+### Google CloudのCompute Engine無料枠
 
-1回の記事公開で1ビルドすると仮定すれば、月500回、平均約16回/日の更新余地があります。ただし、プレビューや記事以外の更新もビルドを消費します。
+2026年8月13日時点の主な条件は次のとおりです。
 
-記事数は公式に決まっていません。1記事につきHTML 1点と固有画像3点なら、共有ファイルを除く理論値は約5,000記事です。実際にはカテゴリ、CSS、JavaScript、OGP画像なども含むため、設計により変わります。
+- 米国の`us-west1`、`us-central1`、`us-east1`にある非プリエンプティブルe2-micro 1台相当
+- 標準永続ディスク30GB・月
+- 北米から対象地域への下りデータ転送1GB・月
 
-25MiBを超える動画や配布ファイルはPagesへ直接置けません。公式は大容量ファイルにR2を案内していますが、別途料金・上限の確認が必要です。画像はWebPやAVIFへ最適化し、動画は外部へ分離します。
+[Google Cloud公式：Free Tier](https://docs.cloud.google.com/free/docs/free-cloud-features#compute)
 
-Pages FunctionsはWorkers Free枠を共有し、無料枠は1日10万リクエスト、HTTPリクエスト当たりCPU時間10ms、メモリ128MBです（[Cloudflare公式](https://developers.cloudflare.com/workers/platform/limits/#account-plan-limits)）。静的記事の閲覧数にはこの10万件/日は適用されません。フォームや認証など、Functionsを呼ぶ動的リクエストだけを分けて見積もります。
+無料枠は「好きなリージョンとマシンを無料にできる仕組み」ではありません。
 
-## 読者タイプ別のおすすめ
+また、e2-microでWordPressを動かせるかと、管理画面、テーマ、プラグイン、アクセス数まで含めて無理なく運用できるかは別の話です。用途に合わせた負荷確認が必要です。
 
-- **費用0円を最優先する人**：Cloudflare Pages。ドメイン、AI API、外部フォーム、R2等は別料金です。
-- **WordPress管理画面を使いたい人**：GCP＋WordPress。初心者は保守込みのWordPress専用ホスティングも比較します。
-- **複数の外部ライターで運営する人**：管理画面派ならWordPress、GitHubを使えるならPagesです。
-- **AIやCodex中心で更新する人**：Pages＋Markdown。AIが記事ファイル、内部リンク、構造化データ、テストを一つの変更として扱えます。
-- **将来、会員サイトやECへ発展させる人**：プラグイン中心ならWordPress。Pagesでは動的機能の別設計が必要です。
-- **月間アクセス増加を想定する人**：閲覧中心ならPages。WordPressはCDN、キャッシュ、VM・DBの増強で対応します。
+### Cloudflare Pages Freeプラン
 
-## e-life.siteの「AIエージェントナレッジ」に適した構成
+2026年8月13日時点で、Cloudflare公式が案内する主な上限は次のとおりです。
 
-現段階では、Cloudflare Pages＋Astro＋Markdownを推奨します。
+| 項目 | Freeプランの上限 |
+|---|---|
+| ビルド | 月500回、同時1件、1回最大20分 |
+| ファイル | 1サイト最大20,000ファイル |
+| 1ファイル | 最大25MiB |
+| 独自ドメイン | 1プロジェクト最大100件 |
+| Pagesプロジェクト | 1アカウント最大100件 |
 
-記事はMarkdownで保存し、タイトル、説明文、公開日、更新日、著者、カテゴリ、タグをフロントマター（本文冒頭の機械可読な記事情報）として持たせます。
+[Cloudflare公式：Pages Limits](https://developers.cloudflare.com/pages/platform/limits/)
 
-公開フローは「AIが下書き → Codexが出典・SEOを検査 → 人がプレビュー確認 → mainへ反映 → 公開」です。PagesはプルリクエストごとにプレビューURLを作れます（[Cloudflare公式](https://developers.cloudflare.com/pages/configuration/preview-deployments/)）。
+記事数の上限が直接決まっているわけではありません。HTML、画像、CSS、JavaScriptなどを合わせたファイル数で考えます。25MiBを超える動画や配布ファイルは、R2など別の置き場所が必要です。
 
-検索はビルド時に作る軽量な索引から始めます。問い合わせは外部フォーム、または`/api/contact`だけをFunctionsで動的にします。
+Pages FunctionsはWorkersの利用枠として数えます。Workers Freeは2026年8月13日時点で1日100,000リクエスト、1回当たりCPU時間10msです。一方、Functionsを呼ばない静的アセットへのリクエストはこの数に含まれません。
 
-## 将来WordPressへ移行できる設計
+- [Cloudflare公式：Workers Pricing](https://developers.cloudflare.com/workers/platform/pricing/)
+- [Cloudflare公式：Pages Functions Pricing](https://developers.cloudflare.com/pages/functions/pricing/)
 
-移行しやすさは、最初のデータ設計で決まります。
+## 保守とセキュリティの違い
 
-1. 記事本文は装飾専用HTMLを増やさず、標準的なMarkdownで保存する
-2. slug、公開日、更新日、著者、カテゴリ、タグ、要約、OGP画像を全記事で統一する
-3. URLを`/articles/slug/`などに固定し、移行後も同じURLを使う
-4. 画像のファイル名と代替テキストを記事データで管理する
-5. 独自の短縮コードに依存しすぎない
-6. WordPressへ移す際はREST APIで記事・画像・分類を投入し、差分を検証する
-7. URLが変わる場合だけ301リダイレクトを作り、canonicalとサイトマップを更新する
+### GCP＋WordPressで利用者側に残ること
 
-Pagesは過去の本番デプロイへ即時に戻せます（[Cloudflare公式](https://developers.cloudflare.com/pages/configuration/rollbacks/)）。ただし、Git外のフォームデータや外部サービスは個別にバックアップします。
+Compute EngineのVMを使う場合、OSの更新、監視、障害対応、容量管理が利用者側に残ります。加えて、WordPress本体、テーマ、プラグイン、PHP、データベース、バックアップの管理も必要です。
 
-## まとめ
+WordPress公式も、セキュリティと性能のためにプラグインを最新へ保つよう案内しています。
 
-WordPress本体が無料でも、Compute Engineで動かせばVM、ディスク、外部IPv4、通信、バックアップなどに費用が発生し得ます。GCPの常時無料枠は、米国の`us-west1`、`us-central1`、`us-east1`にある非プリエンプティブルe2-micro 1台相当、標準永続ディスク30GB・月、北米からの下り通信1GB・月などが条件です（[Google Cloud公式](https://docs.cloud.google.com/free/docs/free-cloud-features#compute)）。東京リージョンのe2-medium＋バランスディスク30GBは、この無料構成には該当しません。
+- [Google Cloud公式：VM Managerのパッチ](https://docs.cloud.google.com/compute/vm-manager/docs/patch)
+- [WordPress公式：Manage Plugins](https://wordpress.org/documentation/article/manage-plugins/)
 
-Cloudflare Pagesは、情報を読むための静的サイトを無料枠内でかなり大きく育てられます。ただし、管理画面、予約投稿、細かな権限、会員・EC機能は自動では付いてきません。
+もちろん、マネージドサービスや自動化を組み合わせれば負担は減らせます。その場合はサービス料金と運用範囲を別に確認します。
 
-e-life.siteでは、まずPages＋Astro＋MarkdownでAIエージェントナレッジを公開し、運営人数や動的機能が増えた時点でWordPressまたは別のCMSを再評価するのが、固定費と移行余地のバランスがよい選択です。
+### Cloudflare Pagesでも保守はなくならない
 
-## 事実確認チェックリスト
+静的サイトでは、公開面にWordPress管理画面や自分で動かすデータベースを置かずに済みます。その分、管理する対象を減らしやすい構成です。
 
-確認日：2026年8月11日
+ただし、次の作業は残ります。
 
-| 変動し得る項目 | 記事で使用した値・条件 | 公式出典 |
-|---|---|---|
-| GCP画面見積もり | 東京、e2-medium、4GB、バランスディスク30GBで総額5,776円/月。VM 5,138円、ディスク639円、Click to Deploy 0円 | 当日の本人確認画面。一般料金としては不使用。構成説明は[Google Cloud WordPress](https://cloud.google.com/wordpress) |
-| Google Cloud無料トライアル | 新規対象者は300米ドル、90日 | [Google Cloud Free Program](https://docs.cloud.google.com/free/docs/free-cloud-features) |
-| Compute Engine常時無料枠 | 米国3リージョンのe2-micro 1台相当、標準永続ディスク30GB・月、北米発の下り1GB・月など | [Google Cloud Free Tier](https://docs.cloud.google.com/free/docs/free-cloud-features#compute) |
-| 外部IPv4 | 標準VMで使用中は0.005米ドル/時。無料使用は月1時間/アカウント | [Google Cloud VPC料金](https://cloud.google.com/vpc/network-pricing#ipaddress) |
-| ディスク・スナップショット | 確保したディスク容量に課金。スナップショットは別料金 | [Google Cloudディスク料金](https://cloud.google.com/compute/disks-image-pricing) |
-| Pagesビルド | Freeは月500回、同時1件、最大20分 | [Cloudflare Pages Limits](https://developers.cloudflare.com/pages/platform/limits/#builds) |
-| Pages独自ドメイン | Freeは1プロジェクト100件 | [Cloudflare Pages Limits](https://developers.cloudflare.com/pages/platform/limits/#custom-domains) |
-| Pagesファイル | Freeは1サイト2万ファイル、1ファイル25MiB | [Cloudflare Pages Limits](https://developers.cloudflare.com/pages/platform/limits/#files) |
-| Pages静的リクエスト | Functionsを呼ばない静的配信は無料・無制限 | [Cloudflare Pages Functions Pricing](https://developers.cloudflare.com/pages/functions/pricing/#static-asset-requests) |
-| Pages Functions | Workers Free枠と共有して1日10万リクエスト。午前0時UTCにリセット | [Cloudflare Pages Functions Pricing](https://developers.cloudflare.com/pages/functions/pricing/#free-plan) |
-| Workers Free実行上限 | HTTP 1リクエスト当たりCPU 10ms、メモリ128MB、サブリクエスト50件 | [Cloudflare Workers Limits](https://developers.cloudflare.com/workers/platform/limits/#account-plan-limits) |
+- Astroや依存パッケージの更新
+- GitHubアカウントと公開権限の管理
+- ビルドエラーの確認
+- フォームや認証など外部サービスの管理
+- 公開前プレビューと公開後確認
 
-料金や上限は変更される可能性があります。導入時には、上表の公式ページと実際の管理画面で再確認してください。
+Cloudflare Pagesだから自動的に安全になる、保守がゼロになる、という意味ではありません。
+
+## SEOはホスティング名だけでは決まらない
+
+WordPressでも静的サイトでも、次の項目は用意できます。
+
+- ページごとのtitleとdescription
+- canonical URL
+- 構造化データ
+- XMLサイトマップ
+- RSS
+- パンくずと内部リンク
+- OGP画像
+- 高速化や画像最適化
+
+WordPressはテーマやSEOプラグインで設定しやすいのが利点です。静的サイトはテンプレートとビルド処理で一貫して出力できますが、最初の実装と確認が必要です。
+
+「WordPressだからSEOに強い」「静的だから必ず上位になる」とは断定できません。記事の内容、検索意図、内部構造、表示品質、サイト全体の信頼性まで含めて考えます。
+
+## 問い合わせ・検索・会員機能をどう作るか
+
+静的サイトでも、記事、カテゴリ、タグ、関連記事、サイトマップ、RSSはビルド時に作れます。
+
+一方、次の機能は動的な処理や保存先が必要です。
+
+- お問い合わせ送信
+- ログインと会員情報
+- コメント
+- 決済やEC
+- 管理画面からの投稿
+
+WordPressでは本体やプラグインで追加しやすい機能です。Cloudflare PagesではPages Functions、外部フォーム、認証サービス、検索サービスなどを組み合わせます。
+
+必要な機能が多いほど、Pagesの「静的配信0円」だけを見て判断しない方が安全です。
+
+## 読者タイプ別の選び方
+
+### Cloudflare Pagesから検討しやすい人
+
+- ひとり、または少人数で運営する
+- MarkdownとGitの作業を受け入れられる
+- AIやCodexにファイル編集を頼みたい
+- 記事閲覧が中心で、動的機能は少ない
+- VM、PHP、データベースを今は管理したくない
+
+### WordPressから検討しやすい人
+
+- ブラウザーの管理画面が必要
+- 非技術者を含む複数人で頻繁に投稿する
+- 権限、予約、承認をすぐ使いたい
+- 既存のWordPressテーマやプラグインがある
+- 会員、コメント、ECなどをプラグイン中心で作りたい
+
+### GCP以外も比較した方がよい人
+
+WordPressを使いたいけれど、OSやデータベースの管理はしたくない場合です。
+
+その場合は、GCPのVMだけでなく、保守込みのWordPress向けホスティングも候補になります。WordPressを使うかと、自分でVMを管理するかは別の選択です。
+
+## あとから移りやすくする準備
+
+どちらを選んでも、将来の変更はあり得ます。
+
+移行しやすくするため、最初に次をそろえておくと安心です。
+
+1. 記事のURL形式を決める
+2. タイトル、要約、公開日、更新日、カテゴリ、タグを統一する
+3. 画像ファイルと代替テキストを整理する
+4. 特定テーマ専用の装飾に依存しすぎない
+5. 原稿と画像のバックアップを持つ
+6. 移行時にURLが変わるなら301リダイレクトを用意する
+7. canonicalとサイトマップを移行後に確認する
+
+Cloudflare Pagesのデプロイ履歴やGitの履歴は、外部フォームの送信内容や別サービスのデータまで保存してくれるものではありません。データごとにバックアップ範囲を確認します。
+
+## まとめ：料金表を見る前に更新方法を決める
+
+私のように、少人数で記事とコードをCodexに見てもらい、MarkdownとGitで公開するなら、Cloudflare Pagesは始めやすい選択肢です。
+
+一方、管理画面、複数人の権限、予約投稿、プラグインが必要なら、WordPressの便利さには理由があります。
+
+比較する順番は次のとおりです。
+
+1. 誰がどこから記事を更新するか
+2. 予約、承認、会員、決済など何が必要か
+3. 自分で保守できる範囲はどこまでか
+4. その条件で料金と無料枠を確認する
+
+この順番なら、「無料だから選んだのに必要な機能が足りない」「WordPressを入れたけれど管理画面を使わなかった」というずれを減らせます。
+
+## 公開前に再確認した公式情報
+
+確認日：2026年8月13日
+
+| 確認項目 | 確認先 |
+|---|---|
+| Compute Engine無料枠の対象リージョン、e2-micro、標準永続ディスク | [Google Cloud Free Tier](https://docs.cloud.google.com/free/docs/free-cloud-features#compute) |
+| Compute Engineのディスク課金と見積もり方法 | [Google Cloud ディスクとイメージの料金](https://cloud.google.com/compute/disks-image-pricing) |
+| 外部IPv4などのネットワーク料金 | [Google Cloud VPC料金](https://cloud.google.com/vpc/network-pricing#ipaddress) |
+| Pagesのビルド、ファイル、独自ドメイン、プロジェクト上限 | [Cloudflare Pages Limits](https://developers.cloudflare.com/pages/platform/limits/) |
+| 静的アセットとPages Functionsの扱い | [Cloudflare Pages Functions Pricing](https://developers.cloudflare.com/pages/functions/pricing/) |
+| Workers Freeのリクエスト・CPU時間 | [Cloudflare Workers Pricing](https://developers.cloudflare.com/workers/platform/pricing/) |
+| WordPressのユーザー権限 | [WordPress Roles and Capabilities](https://wordpress.org/documentation/article/roles-and-capabilities/) |
+| WordPressプラグインの更新 | [WordPress Manage Plugins](https://wordpress.org/documentation/article/manage-plugins/) |
+
+料金や上限は変わる可能性があります。導入時には、公式ページと実際の管理画面で再確認してください。
