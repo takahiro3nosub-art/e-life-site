@@ -1,6 +1,7 @@
 ---
 title: "VercelとWordPressは何が違う？併用前に知りたい仕組み・料金・判断基準"
 description: "VercelとWordPressの役割の違い、Headless WordPressとして併用する仕組み、料金と運用上の注意点を、未接続の調査範囲を明示して初心者向けに整理します。"
+personalLead: "WordPressとVercelを同じ種類のサービスだと思い、調べるほど分からなくなりました。私が混乱した順番から、役割の違いを整理します。"
 publishedAt: "2026-08-11T09:05:00+09:00"
 updatedAt: "2026-08-13T00:00:00+09:00"
 category: "サイト構築"
@@ -40,17 +41,11 @@ faq:
     answer: "記事投稿が中心なら、まずWordPress単体から始めるほうが管理箇所を減らせます。独自画面や診断、会員機能などが必要になり、開発と保守を担当できる人がいる段階で併用を検討するのが現実的です。"
 ---
 
-前回、GCPでWordPressを作ろうとしたときの見積もりをきっかけに、[このブログをCloudflare Pagesで始めた経緯](/articles/gcp-wordpress-5776-cloudflare-pages/)を書きました。
-
-そのあと気になったのが、Vercelです。
+GCPでWordPressを作ろうとしたときの見積もりをきっかけに、[このブログをCloudflare Pagesで始めた経緯](/articles/gcp-wordpress-5776-cloudflare-pages/)を書いたあと、Vercelが気になりました。
 
 「WordPressの代わりになるの？」
 
 「記事だけWordPressで書いて、表示はVercelにできるの？」
-
-言葉を調べるほど、Next.jsやHeadless CMSまで出てきて、私はかえって分からなくなりました。
-
-そこでCodexと一つずつ整理してみると、迷っていた理由は単純でした。VercelとWordPressを、同じ役割のサービスとして比べていたのです。
 
 ## まず明記しておきたい、私が試した範囲
 

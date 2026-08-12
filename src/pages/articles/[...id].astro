@@ -24,6 +24,12 @@ const { article } = Astro.props;
 const { Content } = await render(article);
 const canonical = new URL(`/articles/${article.id.replace(/\.md$/, "")}/`, Astro.site).toString();
 const image = article.data.image ?? SITE.defaultImage;
+const articleImage = article.data.articleImage ?? {
+  src: image,
+  alt: article.data.imageAlt ?? "",
+  width: 1200,
+  height: 630,
+};
 const imageUrl = new URL(image, Astro.site).toString();
 const dateFormatter = new Intl.DateTimeFormat("ja-JP", {
   year: "numeric",
@@ -42,7 +48,7 @@ const jsonLd = [
     dateModified: article.data.updatedAt.toISOString(),
     mainEntityOfPage: canonical,
     image: [imageUrl],
-    author: { "@type": "Organization", name: SITE.name, url: `${SITE.url}about/` },
+    author: { "@type": "Person", name: "E-Life管理人", url: `${SITE.url}about/` },
     publisher: {
       "@type": "Organization",
       name: SITE.name,
@@ -86,32 +92,32 @@ const jsonLd = [
   imageAlt={article.data.imageAlt}
 >
   <header class="article-hero">
-    <div class="site-shell">
+    <div class="site-shell article-hero__inner">
       <nav class="breadcrumbs" aria-label="パンくずリスト">
-        <a href="/">ホーム</a> / {article.data.category}
+        <ol>
+          <li><a href="/">ホーム</a></li>
+          <li><a href="/#articles">記事一覧</a></li>
+          <li aria-current="page">{article.data.title}</li>
+        </ol>
       </nav>
-      <p class="eyebrow">{article.data.category}</p>
-      <h1>{article.data.title}</h1>
-      <p class="article-hero__description">{article.data.description}</p>
       <div class="article-meta">
-        <time datetime={article.data.publishedAt.toISOString()}>
-          公開：{dateFormatter.format(article.data.publishedAt)}
-        </time>
+        <span class="article-meta__category">{article.data.category}</span>
         <time datetime={article.data.updatedAt.toISOString()}>
-          更新：{dateFormatter.format(article.data.updatedAt)}
+          {dateFormatter.format(article.data.updatedAt)}更新
         </time>
         <time datetime={article.data.factCheckedAt.toISOString()}>
-          根拠確認：{dateFormatter.format(article.data.factCheckedAt)}
+          公式資料確認：{dateFormatter.format(article.data.factCheckedAt)}
         </time>
       </div>
-      <img
-        class="article-cover"
-        src={image}
-        alt={article.data.imageAlt ?? ""}
-        width="1200"
-        height="630"
-        fetchpriority="high"
-      />
+      <h1>{article.data.title}</h1>
+      <p class="article-hero__lead">{article.data.personalLead}</p>
+      <div class="article-author" aria-label="この記事を書いた人">
+        <span class="article-author__mark" aria-hidden="true">E</span>
+        <span>
+          <strong>E-Life管理人</strong>
+          <small>40代でAIとCodexを試しています</small>
+        </span>
+      </div>
     </div>
   </header>
 
@@ -121,6 +127,14 @@ const jsonLd = [
         readerState={article.data.readerState}
         quickAnswer={article.data.quickAnswer}
         articleSteps={article.data.articleSteps}
+      />
+      <img
+        class="article-cover"
+        src={articleImage.src}
+        alt={articleImage.alt}
+        width={articleImage.width}
+        height={articleImage.height}
+        loading="lazy"
       />
       <Content />
       <CopyPrompt label={article.data.copyPrompt.label} text={article.data.copyPrompt.text} />

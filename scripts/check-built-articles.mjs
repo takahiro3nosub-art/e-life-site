@@ -21,12 +21,17 @@ const failures = [];
 for (const slug of slugs) {
   const file = join(articleRoot, slug, "index.html");
   const html = readFileSync(file, "utf8");
+  const guidePosition = html.indexOf('class="article-guide"');
+  const coverPosition = html.indexOf('class="article-cover"');
   const checks = [
+    [html.includes('class="article-hero__lead"'), "H1直下の実体験導入がありません"],
+    [html.includes('class="article-author"'), "著者表示がありません"],
     [html.includes('class="article-guide"'), "読者・結論・手順のガイドがありません"],
+    [guidePosition >= 0 && coverPosition > guidePosition, "記事画像が結論より先に表示されています"],
     [html.includes('class="copy-prompt"'), "コピペ用の指示がありません"],
     [html.includes('class="article-faq"'), "FAQがありません"],
     [html.includes('"@type":"FAQPage"'), "FAQの構造化データがありません"],
-    [html.includes("根拠確認："), "根拠確認日が表示されていません"],
+    [html.includes("公式資料確認："), "公式資料の確認日が表示されていません"],
     [!html.includes("この記事の範囲："), "編集用の体験範囲が定型文のまま表示されています"],
     [(html.match(/<h1(?:\s|>)/g) ?? []).length === 1, "h1が1件ではありません"],
     [(html.match(/class="article-faq__item"/g) ?? []).length >= 3, "質問項目が3件未満です"],

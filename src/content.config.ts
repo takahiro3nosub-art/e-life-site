@@ -8,12 +8,21 @@ const articles = defineCollection({
     .object({
       title: z.string().min(1),
       description: z.string().min(1),
+      personalLead: z.string().min(20).max(180),
       publishedAt: z.coerce.date(),
       updatedAt: z.coerce.date(),
       category: z.string().min(1),
       tags: z.array(z.string().min(1)).min(1),
       image: z.string().optional(),
       imageAlt: z.string().optional(),
+      articleImage: z
+        .object({
+          src: z.string().min(1),
+          alt: z.string().min(1),
+          width: z.number().int().positive(),
+          height: z.number().int().positive(),
+        })
+        .optional(),
       draft: z.boolean().default(true),
       readerState: z.array(z.string().min(8)).min(1).max(4),
       quickAnswer: z.string().min(20),
