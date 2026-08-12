@@ -3,10 +3,9 @@ interface Props {
   readerState: string[];
   quickAnswer: string;
   articleSteps: string[];
-  experienceScope: string;
 }
 
-const { readerState, quickAnswer, articleSteps, experienceScope } = Astro.props;
+const { readerState, quickAnswer, articleSteps } = Astro.props;
 ---
 
 <aside class="article-guide" aria-labelledby="article-guide-title">
@@ -27,6 +26,4 @@ const { readerState, quickAnswer, articleSteps, experienceScope } = Astro.props;
       {articleSteps.map((step) => <li>{step}</li>)}
     </ol>
   </section>
-
-  <p class="article-guide__scope"><strong>この記事の範囲：</strong>{experienceScope}</p>
 </aside>

@@ -13,7 +13,7 @@ const { label, text } = Astro.props;
     <h2 id="copy-prompt-title">{label}</h2>
     <button type="button" class="copy-prompt__button" data-copy-prompt>指示をコピー</button>
   </div>
-  <pre><code data-copy-prompt-text>{text}</code></pre>
+  <div class="copy-prompt__text" data-copy-prompt-text>{text}</div>
   <p class="copy-prompt__status" data-copy-prompt-status aria-live="polite"></p>
 </section>
 

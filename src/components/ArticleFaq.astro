@@ -12,15 +12,14 @@ const { items } = Astro.props;
 ---
 
 <section class="article-faq" aria-labelledby="article-faq-title">
-  <p class="article-faq__eyebrow">FAQ</p>
-  <h2 id="article-faq-title">よくある質問</h2>
+  <h2 id="article-faq-title">読んだあとに、気になりそうなこと</h2>
   <div class="article-faq__items">
     {
       items.map((item) => (
-        <details>
-          <summary>{item.question}</summary>
+        <section class="article-faq__item">
+          <h3>{item.question}</h3>
           <p>{item.answer}</p>
-        </details>
+        </section>
       ))
     }
   </div>

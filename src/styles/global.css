@@ -454,8 +454,7 @@ img {
 }
 
 .article-guide__eyebrow,
-.copy-prompt__eyebrow,
-.article-faq__eyebrow {
+.copy-prompt__eyebrow {
   margin: 0 0 8px;
   color: var(--green);
   font-size: 0.76rem;
@@ -464,16 +463,14 @@ img {
 }
 
 .article-body .article-guide h2,
-.article-body .copy-prompt h2,
-.article-body .article-faq h2 {
+.article-body .copy-prompt h2 {
   margin: 0;
   padding: 0;
   font-size: clamp(1.3rem, 2.6vw, 1.75rem);
 }
 
 .article-body .article-guide h2::before,
-.article-body .copy-prompt h2::before,
-.article-body .article-faq h2::before {
+.article-body .copy-prompt h2::before {
   display: none;
 }
 
@@ -505,22 +502,12 @@ img {
   margin-top: 24px;
 }
 
-.article-body .article-guide__scope {
-  margin: 24px 0 0;
-  padding-top: 18px;
-  border-top: 1px solid #c9ded1;
-  color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.8;
-}
-
-.copy-prompt,
-.article-faq {
+.copy-prompt {
   margin-top: 3.5rem;
   padding: clamp(22px, 4vw, 30px);
-  border: 1px solid var(--line);
+  border: 1px solid #c9ded1;
   border-radius: 20px;
-  background: var(--wash);
+  background: #f8fbf9;
 }
 
 .copy-prompt__head {
@@ -548,29 +535,23 @@ img {
   background: var(--green-dark);
 }
 
-.copy-prompt__button:focus-visible,
-.article-faq summary:focus-visible {
+.copy-prompt__button:focus-visible {
   outline: 3px solid rgb(23 107 77 / 25%);
   outline-offset: 3px;
 }
 
-.article-body .copy-prompt pre {
+.article-body .copy-prompt__text {
   margin: 20px 0 0;
-  padding: 20px;
-  overflow-x: auto;
-  border: 1px solid #d5e2da;
-  border-radius: 14px;
-  background: #17251f;
+  padding: 20px 22px;
+  border-left: 4px solid var(--green);
+  border-radius: 0 12px 12px 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 2;
   white-space: pre-wrap;
   word-break: break-word;
-}
-
-.article-body .copy-prompt pre code {
-  padding: 0;
-  color: #f5faf7;
-  background: transparent;
-  font-size: 0.88rem;
-  line-height: 1.8;
 }
 
 .article-body .copy-prompt__status {
@@ -581,31 +562,31 @@ img {
   font-weight: 700;
 }
 
+.article-faq {
+  margin-top: 3.5rem;
+}
+
 .article-faq__items {
-  display: grid;
-  gap: 12px;
-  margin-top: 20px;
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--line);
 }
 
-.article-faq details {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--paper);
+.article-faq__item {
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--line);
 }
 
-.article-faq summary {
-  padding: 17px 20px;
-  font-weight: 800;
-  line-height: 1.6;
-  cursor: pointer;
+.article-body .article-faq__item h3 {
+  margin: 0 0 0.65rem;
+  color: var(--green-dark);
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
-.article-body .article-faq details p {
+.article-body .article-faq__item p {
   margin: 0;
-  padding: 0 20px 18px;
   color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.85;
+  line-height: 1.9;
 }
 
 .share-panel {

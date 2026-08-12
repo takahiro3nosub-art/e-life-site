@@ -27,8 +27,9 @@ for (const slug of slugs) {
     [html.includes('class="article-faq"'), "FAQがありません"],
     [html.includes('"@type":"FAQPage"'), "FAQの構造化データがありません"],
     [html.includes("根拠確認："), "根拠確認日が表示されていません"],
+    [!html.includes("この記事の範囲："), "編集用の体験範囲が定型文のまま表示されています"],
     [(html.match(/<h1(?:\s|>)/g) ?? []).length === 1, "h1が1件ではありません"],
-    [(html.match(/<details>/g) ?? []).length >= 3, "FAQが3件未満です"],
+    [(html.match(/class="article-faq__item"/g) ?? []).length >= 3, "質問項目が3件未満です"],
     [(html.match(/href="https:\/\//g) ?? []).length >= 1, "外部の根拠リンクがありません"],
   ];
 
