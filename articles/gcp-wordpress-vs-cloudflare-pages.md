@@ -3,7 +3,7 @@ title: "GCPのWordPressとCloudflare Pagesを公式情報で比較｜費用・�
 description: "GCP Compute Engine＋WordPressとCloudflare Pages＋Astro＋Markdownを、費用、無料枠、保守、投稿、SEO、動的機能から公式情報をもとに比較します。"
 personalLead: "最初は料金だけで比べようとしていました。でも、実際には『どうやって記事を更新したいか』から考える方が分かりやすかったです。"
 publishedAt: "2026-08-11"
-updatedAt: "2026-08-13"
+updatedAt: "2026-08-17T15:45:00+09:00"
 category: "サイト構築"
 tags:
   - "GCP"
@@ -34,15 +34,15 @@ copyPrompt:
   label: "WordPressと静的サイトを比較する指示"
   text: "私のサイト要件を整理してください。最初に、更新人数、記事を書く場所、予約・承認、会員・決済・検索・フォーム、既存WordPress資産、月額予算、保守できる範囲を質問してください。その回答をもとに、GCP上のWordPressとCloudflare Pages上の静的サイトを比較し、向いている方、追加費用になり得る項目、導入前に公式ページで再確認する項目を表にしてください。分からない条件は推測せず質問してください。"
 faq:
-  - question: "結局、初心者にはどちらが簡単ですか？"
+  - question: "結局、初心者にはどちらが簡単？"
     answer: "記事をブラウザーだけで書きたいならWordPressが分かりやすい一方、サーバー保守まで含めると作業が増えます。MarkdownやGitをCodexに手伝ってもらう運用なら、Cloudflare Pagesも候補になります。"
-  - question: "SEOはWordPressの方が強いですか？"
+  - question: "SEOはWordPressの方が強い？"
     answer: "ホスティング方式だけで順位は決まりません。どちらでもtitle、canonical、構造化データ、サイトマップ、表示速度などを整えられます。WordPressはプラグインで設定しやすく、静的サイトは実装を管理しやすいという違いです。"
-  - question: "Cloudflare Pagesはアクセスが増えても無料ですか？"
+  - question: "Cloudflare Pagesはアクセスが増えても無料？"
     answer: "Functionsを呼ばない静的アセットのリクエストは、2026年8月13日時点で無料・無制限です。ただし、動的処理、外部サービス、ストレージ、ビルドやファイル数には別の料金・上限があります。"
-  - question: "GCPの無料枠でWordPressを始めるのはありですか？"
+  - question: "GCPの無料枠でWordPressを始めるのはあり？"
     answer: "条件を理解して試す選択はあります。ただし、無料枠対象は米国3リージョンのe2-microなどに限られ、性能や運用負荷が用途に合うかは別に確認が必要です。"
-  - question: "あとからWordPressへ移行できますか？"
+  - question: "あとからWordPressへ移行できる？"
     answer: "可能です。URL、記事本文、画像、公開日、カテゴリなどを移しやすい形で管理しておくと作業を減らせます。移行前にURL維持とリダイレクトを設計してください。"
 ---
 

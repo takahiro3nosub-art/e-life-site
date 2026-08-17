@@ -3,7 +3,7 @@ title: "GCPでWordPressを作ろうとしたら月5,776円。Cloudflare Pagesへ
 description: "GCPのWordPressデプロイ画面で月5,776円の見積もりを見て、まだ記事のない個人ブログに必要か考え直し、Cloudflare Pagesへ方針転換した実体験です。"
 personalLead: "このブログを作るとき、GCPのデプロイ前画面に月5,776円と出て手が止まりました。まだ記事がない自分に本当に必要か、いったん考え直した記録です。"
 publishedAt: "2026-08-11"
-updatedAt: "2026-08-13"
+updatedAt: "2026-08-17T15:45:00+09:00"
 category: "サイト構築"
 tags:
   - "GCP"
@@ -30,13 +30,13 @@ copyPrompt:
   label: "自分のブログ構成を整理するときの指示"
   text: "個人ブログの構成を決めたいです。更新する人、管理画面の必要性、月額予算、必要な動的機能、サーバー保守に使える時間を私に一つずつ質問してください。回答後、WordPressと静的サイトの向き・不向きを、費用が変動する項目と公式確認が必要な項目を分けて整理してください。"
 faq:
-  - question: "GCPのWordPressは月5,776円で固定ですか？"
+  - question: "GCPのWordPressは月5,776円で固定？"
     answer: "いいえ。これは2026年8月11日に、東京リージョン、e2-medium、バランス永続ディスク30GBを選んだ私の画面表示です。構成、利用時間、為替、追加機能などで変わります。"
-  - question: "WordPressをGCPで無料運用できますか？"
+  - question: "WordPressをGCPで無料運用できる？"
     answer: "Google Cloudには条件付きの無料枠がありますが、対象リージョンやマシン、ディスクに制約があります。今回選んだ東京のe2-medium構成は対象外でした。"
-  - question: "Cloudflare Pagesならすべて無料ですか？"
+  - question: "Cloudflare Pagesなら全部無料？"
     answer: "静的配信は無料枠から始められますが、独自ドメイン、AI API、外部フォーム、ストレージ、動的処理などは別費用になる場合があります。"
-  - question: "WordPressを選ばない方がよいという記事ですか？"
+  - question: "この記事はWordPressを選ばない方がいいという話？"
     answer: "いいえ。私の更新方法には静的サイトが合ったという体験記です。管理画面、複数人の権限、予約投稿、WordPress向けプラグインが必要ならWordPressが有力です。"
 ---
 

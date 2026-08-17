@@ -3,7 +3,7 @@ title: "Grok APIとX APIは何が違う？両方試して分かった検索と�
 description: "xAI API（Grok API）とX APIの違いを、接続、課金、X検索、構造化出力、引用検証まで試した経験から初心者向けに整理します。"
 personalLead: "GrokからXを検索できるなら、X APIはいらないのでは。そう思って両方へ接続したところ、契約も得意な仕事も別だと分かりました。"
 publishedAt: "2026-08-17T10:55:00+09:00"
-updatedAt: "2026-08-17T10:55:00+09:00"
+updatedAt: "2026-08-17T15:45:00+09:00"
 category: "AI活用"
 tags:
   - "Grok API"
@@ -38,15 +38,15 @@ copyPrompt:
 
     回答後、Grok APIだけで始める方法、X APIが必要になる条件、引用投稿を一次データで確認する手順を分けて整理してください。AIが生成した引用文を実在投稿として扱わず、投稿ID、citation、X側から取得した本文の一致を確認する設計にしてください。料金と仕様は公式資料の確認日とURLを添えてください。
 faq:
-  - question: "Grok APIだけでXの定性調査はできますか？"
+  - question: "Grok APIだけでXの定性調査はできる？"
     answer: "悩み、語彙、論点を探す定性調査なら始められます。ただし、代表投稿を引用するときは、citationとX側の一次データを使って実在性と本文を確認する必要があります。"
-  - question: "Grok APIを契約すればX APIも使えますか？"
+  - question: "Grok APIを契約すればX APIも使える？"
     answer: "自動的には使えません。xAI APIとX APIは管理画面、認証情報、クレジットが分かれています。利用前にそれぞれの公式コンソールで現在の条件を確認してください。"
-  - question: "JSON Schemaを使えば架空引用を防げますか？"
+  - question: "JSON Schemaを使えば架空引用を防げる？"
     answer: "形式や必須項目は固定できますが、引用先の実在までは保証しません。今回も形式は正しいまま、架空のハンドルと投稿IDが入りました。"
-  - question: "oEmbedだけで大量の投稿を集めてもよいですか？"
+  - question: "oEmbedだけで大量の投稿を集めても大丈夫？"
     answer: "oEmbedは本来、投稿をWebページへ埋め込むための仕組みです。少数の引用確認には使えますが、大量収集や継続監視は利用条件を確認し、X APIを使う設計を検討してください。"
-  - question: "最初からGrok APIとX APIの両方が必要ですか？"
+  - question: "最初からGrok APIとX APIの両方が必要？"
     answer: "定性調査だけならGrok APIから始められます。投稿件数、日時、公開反応数を意思決定に使う段階で、X APIを追加するのが現実的です。"
 ---
 

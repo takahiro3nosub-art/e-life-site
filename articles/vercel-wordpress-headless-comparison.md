@@ -3,7 +3,7 @@ title: "VercelとWordPressは何が違う？併用前に知りたい仕組み・
 description: "VercelとWordPressの役割の違い、Headless WordPressとして併用する仕組み、料金と運用上の注意点を、未接続の調査範囲を明示して初心者向けに整理します。"
 personalLead: "WordPressとVercelを同じ種類のサービスだと思い、調べるほど分からなくなりました。私が混乱した順番から、役割の違いを整理します。"
 publishedAt: "2026-08-11T09:05:00+09:00"
-updatedAt: "2026-08-13T00:00:00+09:00"
+updatedAt: "2026-08-17T15:45:00+09:00"
 category: "サイト構築"
 tags:
   - "Vercel"
@@ -29,15 +29,15 @@ copyPrompt:
   label: "自分のサイト構成を整理するための指示"
   text: "私はWebサイト構築の初心者です。次の条件をもとに、WordPress単体と、WordPress＋Next.js＋Vercelのどちらが向いているか整理してください。条件：サイトの目的／収益化の有無／記事を更新する人／必要な独自機能／月額予算／保守できる人／更新を反映したい速さ。最初に結論を示し、理由、必要な費用項目、導入前に公式ページで確認すべき点、まだ不明な点を分けてください。料金や仕様は推測せず、確認日と公式URLを添えてください。"
 faq:
-  - question: "Vercelだけで普通のWordPressを動かせますか？"
+  - question: "Vercelだけで普通のWordPressは動かせる？"
     answer: "一般的なPHPとデータベースで動くWordPress本体を、Vercelへそのまま設置する構成ではありません。併用する場合も、WordPress本体を動かす対応サーバーが別に必要です。"
-  - question: "VercelのHobbyプランで収益ブログを公開できますか？"
+  - question: "VercelのHobbyプランで収益ブログは公開できる？"
     answer: "2026年8月13日時点の公式案内では、Hobbyは個人の非商用利用向けです。広告掲載や、アフィリエイトが主目的のサイトなどは商用利用の例に含まれます。判断が曖昧なら、公開前にVercelへ確認するのが安全です。"
-  - question: "Headless WordPressにすると必ず速くなりますか？"
+  - question: "Headless WordPressにすると必ず速くなる？"
     answer: "必ずではありません。静的生成やキャッシュを活用しやすい一方、WordPress APIの応答、画像、外部スクリプト、Next.jsの実装によって結果は変わります。公開後の計測が必要です。"
-  - question: "WordPressで公開した記事はVercel側へすぐ反映されますか？"
+  - question: "WordPressで公開した記事はVercel側へすぐ反映される？"
     answer: "自動では決まりません。再ビルド、時間指定の再検証、Webhookを使ったオンデマンド再検証など、更新方法を実装します。方式によっては次のアクセス時に再生成されるため、公開後の確認も必要です。"
-  - question: "初心者はどちらから始めるとよいですか？"
+  - question: "初心者はどちらから始めればいい？"
     answer: "記事投稿が中心なら、まずWordPress単体から始めるほうが管理箇所を減らせます。独自画面や診断、会員機能などが必要になり、開発と保守を担当できる人がいる段階で併用を検討するのが現実的です。"
 ---
 
