@@ -528,6 +528,63 @@ img {
   font-size: 0.9em;
 }
 
+.article-body pre {
+  position: relative;
+  width: min(100%, 760px);
+  margin: 1.8rem auto;
+  padding: 3.2rem 1.35rem 1.3rem;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  background-color: #0f172a !important;
+  box-shadow: 0 16px 34px rgb(15 23 42 / 14%);
+  overflow-x: auto !important;
+  overscroll-behavior-inline: contain;
+  scrollbar-color: #64748b #0f172a;
+}
+
+.article-body pre::before {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 36px;
+  border-bottom: 1px solid #334155;
+  border-radius: 13px 13px 0 0;
+  background:
+    radial-gradient(circle at 18px 18px, #ff5f57 0 4px, transparent 4.5px),
+    radial-gradient(circle at 36px 18px, #febc2e 0 4px, transparent 4.5px),
+    radial-gradient(circle at 54px 18px, #28c840 0 4px, transparent 4.5px),
+    #1e293b;
+  content: "";
+}
+
+.article-body pre::after {
+  position: absolute;
+  z-index: 2;
+  top: 9px;
+  right: 14px;
+  color: #94a3b8;
+  content: attr(data-language);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.article-body pre code {
+  display: block;
+  min-width: max-content;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  tab-size: 2;
+}
+
 .article-guide {
   margin-bottom: 28px;
 }
@@ -1033,6 +1090,19 @@ img {
   .article-hero .article-cover {
     margin-bottom: 24px;
     border-radius: 12px;
+  }
+
+  .article-body pre {
+    padding: 3rem 1rem 1.05rem;
+    border-radius: 11px;
+  }
+
+  .article-body pre::before {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .article-body pre code {
+    font-size: 0.82rem;
   }
 
   .article-body table {
