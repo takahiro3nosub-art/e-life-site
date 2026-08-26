@@ -1,30 +1,33 @@
 ---
 interface Props {
-  readerState: string[];
   quickAnswer: string;
-  articleSteps: string[];
+  headings: Array<{
+    depth: number;
+    slug: string;
+    text: string;
+  }>;
 }
 
-const { readerState, quickAnswer, articleSteps } = Astro.props;
+const { quickAnswer, headings } = Astro.props;
+const tocHeadings = headings.filter((heading) => heading.depth === 2);
 ---
 
 <section class="article-guide" aria-labelledby="article-guide-title">
-  <h2 id="article-guide-title">先に、私の結論です</h2>
-  <p class="article-guide__answer">{quickAnswer}</p>
-
-  <div class="article-guide__details">
-    <section aria-labelledby="reader-state-title">
-      <h3 id="reader-state-title">こんな人に向けて書きました</h3>
-      <ul>
-        {readerState.map((item) => <li>{item}</li>)}
-      </ul>
-    </section>
-
-    <section aria-labelledby="article-steps-title">
-      <h3 id="article-steps-title">この記事では、ここを順番に見ます</h3>
-      <ol>
-        {articleSteps.map((step) => <li>{step}</li>)}
-      </ol>
-    </section>
+  <div class="article-guide__conclusion">
+    <h2 id="article-guide-title">先に、私の結論です</h2>
+    <p class="article-guide__answer">{quickAnswer}</p>
   </div>
+
+  {
+    tocHeadings.length > 0 && (
+      <nav class="article-toc" aria-labelledby="article-toc-title">
+        <h3 id="article-toc-title">目次</h3>
+        <ol>
+          {tocHeadings.map((heading) => (
+            <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+          ))}
+        </ol>
+      </nav>
+    )
+  }
 </section>

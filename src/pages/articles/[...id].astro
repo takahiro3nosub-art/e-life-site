@@ -21,7 +21,7 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const { Content } = await render(article);
+const { Content, headings } = await render(article);
 const canonical = new URL(`/articles/${article.id.replace(/\.md$/, "")}/`, Astro.site).toString();
 const image = article.data.image ?? SITE.defaultImage;
 const articleImage = article.data.articleImage ?? {
@@ -124,9 +124,8 @@ const jsonLd = [
   <div class="site-shell article-wrap">
     <article class="article-body">
       <ArticleGuide
-        readerState={article.data.readerState}
         quickAnswer={article.data.quickAnswer}
-        articleSteps={article.data.articleSteps}
+        headings={headings}
       />
       <img
         class="article-cover"

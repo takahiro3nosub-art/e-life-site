@@ -23,10 +23,17 @@ for (const slug of slugs) {
   const html = readFileSync(file, "utf8");
   const guidePosition = html.indexOf('class="article-guide"');
   const coverPosition = html.indexOf('class="article-cover"');
+  const toc = html.match(/<nav class="article-toc"[\s\S]*?<\/nav>/)?.[0] ?? "";
+  const tocTargets = [...toc.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
   const checks = [
     [html.includes('class="article-hero__lead"'), "H1直下の実体験導入がありません"],
     [html.includes('class="article-author"'), "著者表示がありません"],
-    [html.includes('class="article-guide"'), "読者・結論・手順のガイドがありません"],
+    [html.includes('class="article-guide"'), "結論・目次のガイドがありません"],
+    [html.includes('class="article-toc"'), "目次がありません"],
+    [tocTargets.length >= 1, "目次に本文見出しへのリンクがありません"],
+    [tocTargets.every((target) => html.includes(`id="${target}"`)), "目次リンクの移動先がありません"],
+    [!html.includes("こんな人に向けて書きました"), "旧『こんな人』ブロックが残っています"],
+    [!html.includes("この記事では、ここを順番に見ます"), "旧『順番に見ます』ブロックが残っています"],
     [guidePosition >= 0 && coverPosition > guidePosition, "記事画像が結論より先に表示されています"],
     [html.includes('class="copy-prompt"'), "コピペ用の指示がありません"],
     [html.includes('class="article-faq"'), "FAQがありません"],
