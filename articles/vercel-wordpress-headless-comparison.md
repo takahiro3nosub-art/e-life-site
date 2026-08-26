@@ -3,7 +3,7 @@ title: "VercelとWordPressは何が違う？併用前に知りたい仕組み・
 description: "VercelとWordPressの役割の違い、Headless WordPressとして併用する仕組み、料金と運用上の注意点を、未接続の調査範囲を明示して初心者向けに整理します。"
 personalLead: "WordPressとVercelを同じ種類のサービスだと思い、調べるほど分からなくなりました。私が混乱した順番から、役割の違いを整理します。"
 publishedAt: "2026-08-11T09:05:00+09:00"
-updatedAt: "2026-08-17T15:45:00+09:00"
+updatedAt: "2026-08-26T23:54:00+09:00"
 category: "サイト構築"
 tags:
   - "Vercel"
@@ -18,7 +18,10 @@ readerState:
   - "WordPressは知っているが、Vercelが何をするサービスなのか分からない"
   - "WordPressの記事をVercelで表示できるのか知りたい"
   - "Headless WordPressを選ぶべきか、普通のWordPressで十分か迷っている"
-quickAnswer: "記事投稿が中心なら、まずはWordPress単体が分かりやすいです。VercelとWordPressの併用は、WordPressの投稿画面を残しながらNext.jsで独自の表示やWebアプリ機能を作りたいときの選択肢です。ただし、WordPress用サーバーは別に必要で、表示更新・プレビュー・SEO・保守も自分たちでつなぐ必要があります。"
+quickAnswer: |-
+  記事投稿が中心なら、まずはWordPress単体が分かりやすい。
+  VercelとWordPressの併用は、WordPressの投稿画面を残しながらNext.jsで独自の表示やWebアプリ機能を作りたいときの選択肢。
+  ただし、WordPress用サーバーは別に必要で、表示更新・プレビュー・SEO・保守も自分たちでつなぐ必要がある。
 articleSteps:
   - "VercelとWordPressの役割の違いを知る"
   - "併用したときの記事表示までの流れを確認する"

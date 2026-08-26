@@ -25,7 +25,17 @@ const articles = defineCollection({
         .optional(),
       draft: z.boolean().default(true),
       readerState: z.array(z.string().min(8)).min(1).max(4),
-      quickAnswer: z.string().min(20),
+      quickAnswer: z
+        .string()
+        .min(20)
+        .refine(
+          (value) => value.split(/\n+/).filter((line) => line.trim().length > 0).length >= 2,
+          "quickAnswer must contain at least two lines",
+        )
+        .refine(
+          (value) => !/(?:です|ます|でした|ました)。/.test(value),
+          "quickAnswer must use a direct, non-desu-masu style",
+        ),
       articleSteps: z.array(z.string().min(4)).min(2).max(6),
       experienceScope: z.string().min(20),
       factCheckedAt: z.coerce.date(),

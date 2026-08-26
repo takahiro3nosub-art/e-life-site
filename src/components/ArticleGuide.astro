@@ -10,12 +10,18 @@ interface Props {
 
 const { quickAnswer, headings } = Astro.props;
 const tocHeadings = headings.filter((heading) => heading.depth === 2);
+const answerParagraphs = quickAnswer
+  .split(/\n+/)
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean);
 ---
 
 <section class="article-guide" aria-labelledby="article-guide-title">
   <div class="article-guide__conclusion">
-    <h2 id="article-guide-title">先に、私の結論です</h2>
-    <p class="article-guide__answer">{quickAnswer}</p>
+    <h2 id="article-guide-title">先に、私の結論</h2>
+    <div class="article-guide__answers">
+      {answerParagraphs.map((paragraph) => <p class="article-guide__answer">{paragraph}</p>)}
+    </div>
   </div>
 
   {

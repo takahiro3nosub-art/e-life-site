@@ -3,7 +3,7 @@ title: "GCPのWordPressとCloudflare Pagesを公式情報で比較｜費用・�
 description: "GCP Compute Engine＋WordPressとCloudflare Pages＋Astro＋Markdownを、費用、無料枠、保守、投稿、SEO、動的機能から公式情報をもとに比較します。"
 personalLead: "最初は料金だけで比べようとしていました。でも、実際には『どうやって記事を更新したいか』から考える方が分かりやすかったです。"
 publishedAt: "2026-08-11"
-updatedAt: "2026-08-17T15:45:00+09:00"
+updatedAt: "2026-08-26T23:54:00+09:00"
 category: "サイト構築"
 tags:
   - "GCP"
@@ -22,7 +22,10 @@ readerState:
   - "WordPressと静的サイトのどちらにするか迷っている"
   - "無料枠だけでなく保守や更新方法まで比較したい"
   - "AIやCodexを使った少人数運営を考えている"
-quickAnswer: "少人数でMarkdownとGitを使い、静的な記事を中心に公開するならCloudflare Pagesが有力です。ブラウザーの管理画面、複数人の権限、予約投稿、WordPress向けプラグインが必要ならWordPressが向きます。料金より先に更新方法で絞ると選びやすくなります。"
+quickAnswer: |-
+  少人数でMarkdownとGitを使い、静的な記事を中心に公開するならCloudflare Pagesが有力。
+  ブラウザーの管理画面、複数人の権限、予約投稿、WordPress向けプラグインが必要ならWordPressが向く。
+  料金より先に更新方法で絞ると選びやすい。
 articleSteps:
   - "比較する2つの構成をそろえる"
   - "更新方法と必要機能で候補を絞る"

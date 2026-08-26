@@ -25,10 +25,16 @@ for (const slug of slugs) {
   const coverPosition = html.indexOf('class="article-cover"');
   const toc = html.match(/<nav class="article-toc"[\s\S]*?<\/nav>/)?.[0] ?? "";
   const tocTargets = [...toc.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
+  const conclusion = html.match(/<div class="article-guide__answers">[\s\S]*?<\/div>/)?.[0] ?? "";
+  const conclusionParagraphs = conclusion.match(/class="article-guide__answer"/g)?.length ?? 0;
   const checks = [
     [html.includes('class="article-hero__lead"'), "H1直下の実体験導入がありません"],
     [html.includes('class="article-author"'), "著者表示がありません"],
     [html.includes('class="article-guide"'), "結論・目次のガイドがありません"],
+    [html.includes("先に、私の結論"), "結論の見出しがありません"],
+    [!html.includes("先に、私の結論です"), "結論の旧見出しが残っています"],
+    [conclusionParagraphs >= 2, "結論が適切に改行されていません"],
+    [!/(?:です|ます|でした|ました)。/.test(conclusion), "結論がです・ます調のままです"],
     [html.includes('class="article-toc"'), "目次がありません"],
     [tocTargets.length >= 1, "目次に本文見出しへのリンクがありません"],
     [tocTargets.every((target) => html.includes(`id="${target}"`)), "目次リンクの移動先がありません"],

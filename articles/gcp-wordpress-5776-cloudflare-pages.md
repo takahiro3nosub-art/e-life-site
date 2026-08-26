@@ -3,7 +3,7 @@ title: "GCPでWordPressを作ろうとしたら月5,776円。Cloudflare Pagesへ
 description: "GCPのWordPressデプロイ画面で月5,776円の見積もりを見て、まだ記事のない個人ブログに必要か考え直し、Cloudflare Pagesへ方針転換した実体験です。"
 personalLead: "このブログを作るとき、GCPのデプロイ前画面に月5,776円と出て手が止まりました。まだ記事がない自分に本当に必要か、いったん考え直した記録です。"
 publishedAt: "2026-08-11"
-updatedAt: "2026-08-17T15:45:00+09:00"
+updatedAt: "2026-08-26T23:54:00+09:00"
 category: "サイト構築"
 tags:
   - "GCP"
@@ -18,7 +18,9 @@ readerState:
   - "これから個人ブログを作ろうとしている"
   - "GCPでWordPressを動かす費用が気になっている"
   - "WordPress以外の選択肢も知ってから決めたい"
-quickAnswer: "私の場合は、GCPのデプロイ前画面で月5,776円と表示され、まだ記事のない個人ブログには早いと判断しました。WordPressは起動せず、Cloudflare Pages＋Astro＋Markdownへ方針を変えました。"
+quickAnswer: |-
+  私の場合、GCPのデプロイ前画面で月5,776円と表示され、まだ記事のない個人ブログには早いと判断した。
+  WordPressは起動せず、Cloudflare Pages＋Astro＋Markdownへ方針を変えた。
 articleSteps:
   - "見積画面で何を選んだか確認する"
   - "自分の更新方法にWordPressが必要か考える"
