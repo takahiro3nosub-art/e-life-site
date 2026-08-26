@@ -21,6 +21,8 @@ const failures = [];
 for (const slug of slugs) {
   const file = join(articleRoot, slug, "index.html");
   const html = readFileSync(file, "utf8");
+  const documentTitle = html.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? "";
+  const pageHeading = html.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/)?.[1] ?? "";
   const guidePosition = html.indexOf('class="article-guide"');
   const coverPosition = html.indexOf('class="article-cover"');
   const breadcrumbsPosition = html.indexOf('class="breadcrumbs"');
@@ -53,6 +55,7 @@ for (const slug of slugs) {
     [html.includes("公式資料確認："), "公式資料の確認日が表示されていません"],
     [!html.includes("この記事の範囲："), "編集用の体験範囲が定型文のまま表示されています"],
     [(html.match(/<h1(?:\s|>)/g) ?? []).length === 1, "h1が1件ではありません"],
+    [!documentTitle.includes("。") && !pageHeading.includes("。"), "タイトルに句点『。』が含まれています"],
     [(html.match(/class="article-faq__item"/g) ?? []).length >= 3, "質問項目が3件未満です"],
     [(html.match(/href="https:\/\//g) ?? []).length >= 1, "外部の根拠リンクがありません"],
     [html.includes('class="related-articles"'), "関連記事ブロックがありません"],

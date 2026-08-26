@@ -6,7 +6,13 @@ const articles = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./articles" }),
   schema: z
     .object({
-      title: z.string().min(1),
+      title: z
+        .string()
+        .min(1)
+        .refine(
+          (value) => !value.includes("。"),
+          "title must not contain Japanese full stops; use ｜ for separation or ？ for a question",
+        ),
       description: z.string().min(1),
       personalLead: z.string().min(20).max(180),
       publishedAt: z.coerce.date(),

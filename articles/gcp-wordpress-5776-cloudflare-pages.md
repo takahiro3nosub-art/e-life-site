@@ -1,9 +1,9 @@
 ---
-title: "GCPでWordPressを作ろうとしたら月5,776円。Cloudflare Pagesへ変えた話"
+title: "GCPでWordPressを作ろうとしたら月5,776円｜Cloudflare Pagesへ変えた話"
 description: "GCPのWordPressデプロイ画面で月5,776円の見積もりを見て、まだ記事のない個人ブログに必要か考え直し、Cloudflare Pagesへ方針転換した実体験です。"
 personalLead: "このブログを作るとき、GCPのデプロイ前画面に月5,776円と出て手が止まりました。まだ記事がない自分に本当に必要か、いったん考え直した記録です。"
 publishedAt: "2026-08-11"
-updatedAt: "2026-08-26T23:54:00+09:00"
+updatedAt: "2026-08-27T00:58:00+09:00"
 category: "サイト構築"
 tags:
   - "GCP"
