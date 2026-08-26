@@ -122,7 +122,9 @@ WordPressのREST APIでは、投稿、固定ページ、カテゴリー、タグ
 
 構成を一行にすると、こうなります。
 
-> WordPress用サーバー（記事・画像・管理画面） → REST API → Next.js → Vercel（読者が見るサイト）
+```text
+WordPress用サーバー（記事・画像・管理画面） → REST API → Next.js → Vercel（読者が見るサイト）
+```
 
 <img src="/images/articles/vercel-wordpress/headless-flow.webp" alt="WordPressの記事データがAPIを通り、Vercel側のWebサイトとしてパソコンやスマートフォンへ届く流れ" width="1200" height="658" loading="lazy" decoding="async">
 
