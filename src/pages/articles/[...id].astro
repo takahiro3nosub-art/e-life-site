@@ -93,6 +93,15 @@ const jsonLd = [
 >
   <header class="article-hero">
     <div class="site-shell article-hero__inner">
+      <img
+        class="article-cover"
+        src={articleImage.src}
+        alt={articleImage.alt}
+        width={articleImage.width}
+        height={articleImage.height}
+        loading="eager"
+        fetchpriority="high"
+      />
       <nav class="breadcrumbs" aria-label="パンくずリスト">
         <ol>
           <li><a href="/">ホーム</a></li>
@@ -126,14 +135,6 @@ const jsonLd = [
       <ArticleGuide
         quickAnswer={article.data.quickAnswer}
         headings={headings}
-      />
-      <img
-        class="article-cover"
-        src={articleImage.src}
-        alt={articleImage.alt}
-        width={articleImage.width}
-        height={articleImage.height}
-        loading="lazy"
       />
       <Content />
       <CopyPrompt label={article.data.copyPrompt.label} text={article.data.copyPrompt.text} />

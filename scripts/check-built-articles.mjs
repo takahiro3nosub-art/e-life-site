@@ -23,6 +23,7 @@ for (const slug of slugs) {
   const html = readFileSync(file, "utf8");
   const guidePosition = html.indexOf('class="article-guide"');
   const coverPosition = html.indexOf('class="article-cover"');
+  const breadcrumbsPosition = html.indexOf('class="breadcrumbs"');
   const toc = html.match(/<nav class="article-toc"[\s\S]*?<\/nav>/)?.[0] ?? "";
   const tocTargets = [...toc.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
   const conclusion = html.match(/<div class="article-guide__answers">[\s\S]*?<\/div>/)?.[0] ?? "";
@@ -40,7 +41,8 @@ for (const slug of slugs) {
     [tocTargets.every((target) => html.includes(`id="${target}"`)), "目次リンクの移動先がありません"],
     [!html.includes("こんな人に向けて書きました"), "旧『こんな人』ブロックが残っています"],
     [!html.includes("この記事では、ここを順番に見ます"), "旧『順番に見ます』ブロックが残っています"],
-    [guidePosition >= 0 && coverPosition > guidePosition, "記事画像が結論より先に表示されています"],
+    [coverPosition >= 0 && breadcrumbsPosition > coverPosition, "記事画像がページ最上部へ配置されていません"],
+    [guidePosition > coverPosition, "記事画像が結論・目次より後に配置されています"],
     [html.includes('class="copy-prompt"'), "コピペ用の指示がありません"],
     [html.includes('class="article-faq"'), "FAQがありません"],
     [html.includes('"@type":"FAQPage"'), "FAQの構造化データがありません"],

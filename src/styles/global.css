@@ -491,9 +491,14 @@ img {
   background: var(--wash);
 }
 
-.article-body .article-cover {
-  margin: 0 auto 3.25rem;
+.article-hero .article-cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 32px;
+  border: 1px solid var(--line);
   border-radius: 16px;
+  background: var(--wash);
 }
 
 .article-body table {
@@ -1025,8 +1030,8 @@ img {
     padding: 17px 18px;
   }
 
-  .article-body .article-cover {
-    margin-bottom: 2.6rem;
+  .article-hero .article-cover {
+    margin-bottom: 24px;
     border-radius: 12px;
   }
 
