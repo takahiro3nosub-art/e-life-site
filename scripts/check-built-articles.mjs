@@ -28,6 +28,10 @@ for (const slug of slugs) {
   const tocTargets = [...toc.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
   const conclusion = html.match(/<div class="article-guide__answers">[\s\S]*?<\/div>/)?.[0] ?? "";
   const conclusionParagraphs = conclusion.match(/class="article-guide__answer"/g)?.length ?? 0;
+  const relatedArticles = html.match(/<nav class="related-articles"[\s\S]*?<\/nav>/)?.[0] ?? "";
+  const relatedLinks = [...relatedArticles.matchAll(/href="\/articles\/([^"#?]+)\//g)].map(
+    (match) => match[1],
+  );
   const checks = [
     [html.includes('class="article-hero__lead"'), "H1直下の実体験導入がありません"],
     [html.includes('class="article-author"'), "著者表示がありません"],
@@ -51,6 +55,11 @@ for (const slug of slugs) {
     [(html.match(/<h1(?:\s|>)/g) ?? []).length === 1, "h1が1件ではありません"],
     [(html.match(/class="article-faq__item"/g) ?? []).length >= 3, "質問項目が3件未満です"],
     [(html.match(/href="https:\/\//g) ?? []).length >= 1, "外部の根拠リンクがありません"],
+    [html.includes('class="related-articles"'), "関連記事ブロックがありません"],
+    [html.includes('aria-labelledby="related-articles-heading"'), "関連記事の見出し関連付けがありません"],
+    [relatedLinks.length >= 2, "関連記事への内部リンクが2件未満です"],
+    [new Set(relatedLinks).size === relatedLinks.length, "関連記事への内部リンクが重複しています"],
+    [!relatedLinks.includes(slug), "関連記事に現在の記事自身が含まれています"],
   ];
 
   for (const [passed, message] of checks) {

@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+  currentCategory: string;
+}
+
+const { articles, currentCategory } = Astro.props;
+const articleSlug = (article: CollectionEntry<"articles">) => article.id.replace(/\.md$/, "");
+const onlySameCategory = articles.every((article) => article.data.category === currentCategory);
+---
+
+{
+  articles.length > 0 && (
+    <nav class="related-articles" aria-labelledby="related-articles-heading">
+      <div class="related-articles__head">
+        <p class="related-articles__eyebrow">RELATED ARTICLES</p>
+        <h2 id="related-articles-heading">あわせて読みたい記事</h2>
+        <p class="related-articles__intro">
+          {onlySameCategory
+            ? `「${currentCategory}」の記事から、次に読みやすい内容を選びました。`
+            : "内容が近い記事から、次に読みやすいものを選びました。"}
+        </p>
+      </div>
+      <ul class="related-articles__list">
+        {articles.map((relatedArticle) => (
+          <li>
+            <a
+              class="related-articles__card"
+              href={`/articles/${articleSlug(relatedArticle)}/`}
+            >
+              <span class="related-articles__category">{relatedArticle.data.category}</span>
+              <h3>{relatedArticle.data.title}</h3>
+              <p>{relatedArticle.data.description}</p>
+              <span class="related-articles__more" aria-hidden="true">記事を読む →</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

@@ -421,6 +421,7 @@ img {
 .article-body > :where(p, h2, h3, ul, ol, blockquote),
 .copy-prompt,
 .article-faq,
+.related-articles,
 .share-panel {
   width: min(100%, 760px);
   margin-right: auto;
@@ -760,6 +761,107 @@ img {
   margin: 0;
   color: var(--muted);
   line-height: 1.9;
+}
+
+.related-articles {
+  margin-top: 3.5rem;
+  padding-top: 3.2rem;
+  border-top: 1px solid var(--line);
+}
+
+.related-articles__eyebrow {
+  margin: 0 0 8px;
+  color: var(--green);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.article-body .related-articles h2 {
+  margin: 0;
+  padding: 0;
+  font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+}
+
+.article-body .related-articles h2::before {
+  display: none;
+}
+
+.article-body .related-articles__intro {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.article-body .related-articles__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-body .related-articles__list li,
+.article-body .related-articles__list li + li {
+  margin: 0;
+}
+
+.related-articles__card {
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.related-articles__card:hover {
+  color: var(--ink);
+  border-color: #b7d0c0;
+  box-shadow: 0 14px 34px rgb(42 82 59 / 10%);
+  transform: translateY(-2px);
+}
+
+.related-articles__card:focus-visible {
+  outline: 3px solid rgb(23 107 77 / 25%);
+  outline-offset: 3px;
+}
+
+.related-articles__category {
+  color: var(--green);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.article-body .related-articles__card h3 {
+  margin: 10px 0 0;
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.article-body .related-articles__card p {
+  display: -webkit-box;
+  margin: 10px 0 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.75;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.related-articles__more {
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--green-dark);
+  font-size: 0.82rem;
+  font-weight: 800;
 }
 
 .share-panel {
@@ -1110,6 +1212,10 @@ img {
     max-width: 100%;
     overflow-x: auto;
     white-space: nowrap;
+  }
+
+  .article-body .related-articles__list {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .copy-prompt__head {

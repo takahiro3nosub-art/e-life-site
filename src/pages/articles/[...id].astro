@@ -4,6 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleFaq from "../../components/ArticleFaq.astro";
 import ArticleGuide from "../../components/ArticleGuide.astro";
 import CopyPrompt from "../../components/CopyPrompt.astro";
+import RelatedArticles from "../../components/RelatedArticles.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
 import { SITE } from "../../site";
 
@@ -22,6 +23,22 @@ interface Props {
 
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
+const currentTags = new Set(article.data.tags);
+const relatedArticles = (await getCollection("articles", ({ data }) => !data.draft))
+  .filter((candidate) => candidate.id !== article.id)
+  .map((candidate) => ({
+    article: candidate,
+    score:
+      (candidate.data.category === article.data.category ? 1000 : 0) +
+      candidate.data.tags.filter((tag) => currentTags.has(tag)).length * 100,
+  }))
+  .sort(
+    (left, right) =>
+      right.score - left.score ||
+      right.article.data.publishedAt.valueOf() - left.article.data.publishedAt.valueOf(),
+  )
+  .slice(0, 2)
+  .map(({ article: relatedArticle }) => relatedArticle);
 const canonical = new URL(`/articles/${article.id.replace(/\.md$/, "")}/`, Astro.site).toString();
 const image = article.data.image ?? SITE.defaultImage;
 const articleImage = article.data.articleImage ?? {
@@ -139,6 +156,10 @@ const jsonLd = [
       <Content />
       <CopyPrompt label={article.data.copyPrompt.label} text={article.data.copyPrompt.text} />
       <ArticleFaq items={article.data.faq} />
+      <RelatedArticles
+        articles={relatedArticles}
+        currentCategory={article.data.category}
+      />
       <ShareButtons title={article.data.title} url={canonical} />
     </article>
   </div>
