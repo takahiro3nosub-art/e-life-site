@@ -3,7 +3,7 @@ title: "GCPでWordPressを作ろうとしたら月5,776円｜Cloudflare Pagesへ
 description: "GCPのWordPressデプロイ画面で月5,776円の見積もりを見て、まだ記事のない個人ブログに必要か考え直し、Cloudflare Pagesへ方針転換した実体験です。"
 personalLead: "このブログを作るとき、GCPのデプロイ前画面に月5,776円と出て手が止まりました。まだ記事がない自分に本当に必要か、いったん考え直した記録です。"
 publishedAt: "2026-08-11"
-updatedAt: "2026-08-27T00:58:00+09:00"
+updatedAt: "2026-10-13T08:35:00+09:00"
 category: "サイト構築"
 tags:
   - "GCP"
@@ -42,7 +42,7 @@ faq:
     answer: "いいえ。私の更新方法には静的サイトが合ったという体験記です。管理画面、複数人の権限、予約投稿、WordPress向けプラグインが必要ならWordPressが有力です。"
 ---
 
-費用や機能を細かく比較したい方は、[GCPのWordPressとCloudflare Pagesの比較記事](/articles/gcp-wordpress-vs-cloudflare-pages/)にまとめています。
+費用や機能を細かく比較したい方は、[GCPのWordPressとCloudflare Pagesを公式情報で比較｜費用・保守・更新方法](/articles/gcp-wordpress-vs-cloudflare-pages/)にまとめています。
 
 ## 私が実際に進めたのはデプロイ直前まで
 
@@ -169,6 +169,8 @@ Astroで記事からHTMLを作り、Cloudflare Pagesから静的ファイルと�
 - 会員、決済、ECなどの機能が増える
 
 そのとき移りやすいように、今は記事をMarkdownで持ち、URLや画像の扱いをできるだけ単純にしています。
+
+WordPressで記事を管理しながら表示側を別に作る案を比較したい方は、[VercelとWordPressは何が違う？併用前に知りたい仕組み・料金・判断基準](/articles/vercel-wordpress-headless-comparison/)をご覧ください。併用で増える保守や、必要になる条件を整理しています。
 
 ## まとめ：見積画面で止まったのは正解だった
 
