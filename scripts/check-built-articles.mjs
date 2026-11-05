@@ -34,6 +34,21 @@ for (const slug of slugs) {
   const relatedLinks = [...relatedArticles.matchAll(/href="\/articles\/([^"#?]+)\//g)].map(
     (match) => match[1],
   );
+  // Sharing buttons are a separate UI; inspect article content and its internal navigation.
+  const articleContent = html.split('<section class="share-panel"')[0];
+  for (const match of articleContent.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)) {
+    const href = match[1].match(/\bhref="([^"]*)"/)?.[1];
+    if (!href) continue;
+    const url = new URL(href, "https://e-life.site");
+    const external = ["http:", "https:"].includes(url.protocol) && url.origin !== "https://e-life.site";
+    const iconCount = (match[2].match(/class="external-link-icon"/g) ?? []).length;
+    if (iconCount !== (external ? 1 : 0)) {
+      failures.push(`${slug}: 外部リンクアイコンの欠落・重複または内部リンクへの誤付与: ${href}`);
+    }
+    if (external && (!match[2].includes('（外部サイト）') || !/<svg[^>]*aria-hidden="true"[\s\S]*<\/svg>$/.test(match[2]))) {
+      failures.push(`${slug}: 外部リンク末尾のアイコンまたは読み上げ用補足がありません: ${href}`);
+    }
+  }
   const checks = [
     [html.includes('class="article-hero__lead"'), "H1直下の実体験導入がありません"],
     [html.includes('class="article-author"'), "著者表示がありません"],
