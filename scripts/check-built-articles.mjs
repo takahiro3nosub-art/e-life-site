@@ -18,6 +18,23 @@ if (slugs.length === 0) {
 
 const failures = [];
 
+function checkLinkLabels(directory) {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    const file = join(directory, entry.name);
+    if (entry.isDirectory()) checkLinkLabels(file);
+    else if (entry.name.endsWith(".html")) {
+      const html = readFileSync(file, "utf8");
+      for (const match of html.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/g)) {
+        const label = match[1].replace(/<[^>]*>/g, "");
+        if (/[→←]|&(?:rarr|larr|#8594|#8592|#x2192|#x2190);/i.test(label)) {
+          failures.push(`${file}: リンク表示に装飾用の矢印が残っています`);
+        }
+      }
+    }
+  }
+}
+checkLinkLabels(new URL("../dist/", import.meta.url).pathname);
+
 for (const slug of slugs) {
   const file = join(articleRoot, slug, "index.html");
   const html = readFileSync(file, "utf8");

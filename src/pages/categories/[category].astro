@@ -29,11 +29,11 @@ const articles = (await getCollection("articles", ({data}) => !data.draft && dat
             <div class="article-card__meta"><CategoryBadge category={article.data.category} /><time datetime={article.data.publishedAt.toISOString()}>{article.data.publishedAt.toLocaleDateString("ja-JP", {timeZone:"Asia/Tokyo"})}</time></div>
             <a class="article-title-link" href={`/articles/${article.id}/`}><h2>{article.data.title}</h2>
             <p>{article.data.description}</p>
-            <span class="article-card__more" aria-hidden="true">この記事を読む →</span></a>
+            <span class="article-card__more" aria-hidden="true">この記事を読む</span></a>
           </article>
         ))}
       </div>
-      <p class="category-back"><a href="/categories/">← カテゴリ一覧へ戻る</a></p>
+      <p class="category-back"><a href="/categories/">カテゴリ一覧へ戻る</a></p>
     </div>
   </section>
 </BaseLayout>

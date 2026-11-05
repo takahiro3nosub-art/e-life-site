@@ -31,7 +31,7 @@ const onlySameCategory = articles.every((article) => article.data.category === c
               <CategoryBadge category={relatedArticle.data.category} />
               <a class="article-title-link" href={`/articles/${articleSlug(relatedArticle)}/`}><h3>{relatedArticle.data.title}</h3>
               <p>{relatedArticle.data.description}</p>
-              <span class="related-articles__more" aria-hidden="true">記事を読む →</span></a>
+              <span class="related-articles__more" aria-hidden="true">記事を読む</span></a>
             </article>
           </li>
         ))}

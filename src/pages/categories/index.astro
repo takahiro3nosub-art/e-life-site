@@ -21,7 +21,7 @@ const categories = [...new Set(articles.map(({ data }) => data.category))]
           <a class="article-card" href={`/categories/${encodeURIComponent(name)}/`}>
             <h2>{name}</h2>
             <p>{count}件の記事</p>
-            <span class="article-card__more">記事一覧を見る →</span>
+            <span class="article-card__more">記事一覧を見る</span>
           </a>
         ))}
       </div>
