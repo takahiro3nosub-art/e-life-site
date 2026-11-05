@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import CategoryBadge from "./CategoryBadge.astro";
 
 interface Props {
   articles: CollectionEntry<"articles">[];
@@ -26,15 +27,12 @@ const onlySameCategory = articles.every((article) => article.data.category === c
       <ul class="related-articles__list">
         {articles.map((relatedArticle) => (
           <li>
-            <a
-              class="related-articles__card"
-              href={`/articles/${articleSlug(relatedArticle)}/`}
-            >
-              <span class="related-articles__category">{relatedArticle.data.category}</span>
-              <h3>{relatedArticle.data.title}</h3>
+            <article class="related-articles__card">
+              <CategoryBadge category={relatedArticle.data.category} />
+              <a class="article-title-link" href={`/articles/${articleSlug(relatedArticle)}/`}><h3>{relatedArticle.data.title}</h3>
               <p>{relatedArticle.data.description}</p>
-              <span class="related-articles__more" aria-hidden="true">記事を読む →</span>
-            </a>
+              <span class="related-articles__more" aria-hidden="true">記事を読む →</span></a>
+            </article>
           </li>
         ))}
       </ul>

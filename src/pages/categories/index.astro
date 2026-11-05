@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const articles = await getCollection("articles", ({ data }) => !data.draft);
+const categories = [...new Set(articles.map(({ data }) => data.category))]
+  .sort((a, b) => a.localeCompare(b, "ja"))
+  .map((name) => ({ name, count: articles.filter(({ data }) => data.category === name).length }));
+---
+<BaseLayout title="カテゴリ一覧" description="E-Lifeの記事をカテゴリから探せます。AI・Codexの使い方やサイト構築など、気になるテーマの記事をご覧ください。">
+  <header class="page-hero">
+    <div class="site-shell page-shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト"><ol><li><a href="/">ホーム</a></li><li aria-current="page">カテゴリ一覧</li></ol></nav>
+      <h1>カテゴリ一覧</h1>
+      <p>気になるテーマから記事を探せます。</p>
+    </div>
+  </header>
+  <section class="section" aria-label="カテゴリから探す">
+    <div class="site-shell">
+      <div class="article-grid">
+        {categories.map(({name, count}) => (
+          <a class="article-card" href={`/categories/${encodeURIComponent(name)}/`}>
+            <h2>{name}</h2>
+            <p>{count}件の記事</p>
+            <span class="article-card__more">記事一覧を見る →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

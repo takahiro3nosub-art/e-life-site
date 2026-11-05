@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import CategoryBadge from "../../components/CategoryBadge.astro";
 import ArticleFaq from "../../components/ArticleFaq.astro";
 import ArticleGuide from "../../components/ArticleGuide.astro";
 import CopyPrompt from "../../components/CopyPrompt.astro";
@@ -127,12 +128,9 @@ const jsonLd = [
         </ol>
       </nav>
       <div class="article-meta">
-        <span class="article-meta__category">{article.data.category}</span>
+        <CategoryBadge category={article.data.category} />
         <time datetime={article.data.updatedAt.toISOString()}>
           {dateFormatter.format(article.data.updatedAt)}更新
-        </time>
-        <time datetime={article.data.factCheckedAt.toISOString()}>
-          公式資料確認：{dateFormatter.format(article.data.factCheckedAt)}
         </time>
       </div>
       <h1>{article.data.title}</h1>

@@ -52,7 +52,7 @@ for (const slug of slugs) {
     [html.includes('class="copy-prompt"'), "コピペ用の指示がありません"],
     [html.includes('class="article-faq"'), "FAQがありません"],
     [html.includes('"@type":"FAQPage"'), "FAQの構造化データがありません"],
-    [html.includes("公式資料確認："), "公式資料の確認日が表示されていません"],
+    [!html.includes("公式資料確認："), "記事上部に公式資料確認日の旧表示が残っています"],
     [!html.includes("この記事の範囲："), "編集用の体験範囲が定型文のまま表示されています"],
     [(html.match(/<h1(?:\s|>)/g) ?? []).length === 1, "h1が1件ではありません"],
     [!documentTitle.includes("。") && !pageHeading.includes("。"), "タイトルに句点『。』が含まれています"],

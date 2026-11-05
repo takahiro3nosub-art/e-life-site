@@ -1,0 +1,5 @@
+---
+interface Props { category: string; }
+const { category } = Astro.props;
+---
+<a class="category-badge" href={`/categories/${encodeURIComponent(category)}/`} aria-label={`カテゴリ「${category}」の記事一覧`}><span>カテゴリ：</span><strong>{category}</strong><span aria-hidden="true"> →</span></a>

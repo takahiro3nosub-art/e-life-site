@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CategoryBadge from "../../components/CategoryBadge.astro";
+export async function getStaticPaths() {
+  const articles = await getCollection("articles", ({data}) => !data.draft);
+  return [...new Set(articles.map(({data}) => data.category))].map((category) => ({
+    params: { category }, props: { category },
+  }));
+}
+interface Props { category: string; }
+const { category } = Astro.props;
+const articles = (await getCollection("articles", ({data}) => !data.draft && data.category === category))
+  .sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+<BaseLayout title={`${category}の記事一覧`} description={`E-Lifeの「${category}」に関する記事一覧。実際に試したことや、公式情報を調べた記録を新着順に紹介します。`}>
+  <header class="page-hero">
+    <div class="site-shell page-shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト"><ol><li><a href="/">ホーム</a></li><li><a href="/categories/">カテゴリ一覧</a></li><li aria-current="page">{category}</li></ol></nav>
+      <h1>{category}の記事一覧</h1>
+      <p>{articles.length}件の記事を新しい順に紹介します。</p>
+    </div>
+  </header>
+  <section class="section" aria-label={`${category}の記事`}>
+    <div class="site-shell">
+      <div class="article-grid">
+        {articles.map((article) => (
+          <article class="article-card">
+            <div class="article-card__meta"><CategoryBadge category={article.data.category} /><time datetime={article.data.publishedAt.toISOString()}>{article.data.publishedAt.toLocaleDateString("ja-JP", {timeZone:"Asia/Tokyo"})}</time></div>
+            <a class="article-title-link" href={`/articles/${article.id}/`}><h2>{article.data.title}</h2>
+            <p>{article.data.description}</p>
+            <span class="article-card__more" aria-hidden="true">この記事を読む →</span></a>
+          </article>
+        ))}
+      </div>
+      <p class="category-back"><a href="/categories/">← カテゴリ一覧へ戻る</a></p>
+    </div>
+  </section>
+</BaseLayout>
